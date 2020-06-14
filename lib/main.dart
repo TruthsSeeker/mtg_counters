@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mtgcounters/playercounters.dart';
+import 'package:mtgcounters/player_counters.dart';
 
 void main() => runApp(MyApp());
 

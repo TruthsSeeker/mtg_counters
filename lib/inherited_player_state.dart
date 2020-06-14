@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:mtgcounters/player_state.dart';
+import 'package:mtgcounters/player_counters.dart';
 
 class InheritedPlayerState extends InheritedWidget {
   const InheritedPlayerState({
@@ -9,7 +9,7 @@ class InheritedPlayerState extends InheritedWidget {
   })  : assert(child != null),
         super(key: key, child: child);
 
-  final PlayerState data;
+  final PlayerCountersState data;
 
   static InheritedPlayerState of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<InheritedPlayerState>();
@@ -17,12 +17,6 @@ class InheritedPlayerState extends InheritedWidget {
 
   @override
   bool updateShouldNotify(InheritedPlayerState old) {
-    print(data.lifepoints);
-    return data != old.data;
-  }
-
-  update(int value) {
-    this.data.lifepoints += value;
-    print(this.data.lifepoints);
+    return this.data.props == old.data.props;
   }
 }
