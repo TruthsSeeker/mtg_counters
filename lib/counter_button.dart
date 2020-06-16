@@ -5,14 +5,12 @@ import 'inherited_player_state.dart';
 class CounterButton extends StatelessWidget {
   const CounterButton({
     Key key,
-    this.target,
     this.value = 1,
     this.image = 'assets/img/-5.png',
   }) : super(key: key);
 
   final String image;
   final int value;
-  final String target;
 
   @override
   Widget build(BuildContext context) {

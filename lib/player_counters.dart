@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mtgcounters/counter_button.dart';
 import 'package:mtgcounters/counter_mini.dart';
+import 'package:mtgcounters/image_utility.dart';
 import 'package:mtgcounters/inherited_player_state.dart';
 import 'package:uuid/uuid.dart';
 
@@ -8,11 +9,14 @@ import 'main_display.dart';
 
 class PlayerCountersState extends State<PlayerCounters> {
   final String key = Uuid().v4();
+  final double scale;
+  final Color color;
 
-  double scale;
-  Color color;
   String active;
-
+  CounterImages mainImage;
+  Color imageFront;
+  Color imageBack;
+  Map<String, int> _commanders = {};
   Map<String, int> props = {};
 
 
@@ -20,17 +24,19 @@ class PlayerCountersState extends State<PlayerCounters> {
     int lifepoints = 20,
     int poison = 0,
     int storm = 0,
-    Map<String, int> commanderDamage = const {},
+    Map<String, int> commanderDamage = const {'Alice': 0, 'Bob': 0, 'Charlie':0},
     this.color = Colors.red,
     this.active = 'lifepoints',
     this.scale = 1,
+    this.mainImage = CounterImages.heart,
+    this.imageFront = Colors.black,
   }) {
     this.props = {'lifepoints': lifepoints, 'poison':  poison, ...commanderDamage};
+    this._commanders = commanderDamage;
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return _buildCounters();
   }
 
@@ -46,6 +52,39 @@ class PlayerCountersState extends State<PlayerCounters> {
     });
   }
 
+  void setActiveImage(CounterImages image, Color frontColor, Color backColor) {
+    setState(() {
+      mainImage = image;
+      imageFront = frontColor;
+      imageBack = backColor;
+    });
+  }
+
+
+  void setCommanders(Map<String, int> data) {
+    setState(() {
+      data.forEach((key, value) => props[key] = value);
+    });
+  }
+
+
+  //TODO: Get commander colors
+  //Perhaps through player id?
+  List<Widget> getCommanders() {
+    List<Widget> list = [];
+    _commanders.forEach((key, value) {
+      list.add(CounterMini(
+        target: key,
+        image: CounterImages.commander,
+        frontColor: Colors.black,
+        backColor: Colors.redAccent,
+      ));
+    });
+    return list;
+  }
+
+  //TODO: add reset button
+  //TODO: Create counters depending on number of player
   Widget _buildCounters() {
     return InheritedPlayerState(
       data: this,
@@ -69,12 +108,19 @@ class PlayerCountersState extends State<PlayerCounters> {
                       ],
                     ),
                   ),
-                  MainDisplay(),
+                  Expanded(
+                    flex: 14,
+                      child: MainDisplay(
+                        image: mainImage,
+                        front: imageFront,
+                        back: imageBack,
+                      )
+                  ),
                   Expanded(
                     flex: 6,
                     child: Column(
                       children: <Widget>[
-                        CounterButton(target: 'lifepoints', value: 5, image: 'assets/img/+5.png',),
+                        CounterButton(value: 5, image: 'assets/img/+5.png',),
                         CounterButton(value: 1, image: 'assets/img/+.png',),
                       ],
                     ),
@@ -87,47 +133,21 @@ class PlayerCountersState extends State<PlayerCounters> {
               child: Row(
                 children: <Widget>[
                   CounterMini(
-                    frontImage: 'assets/img/heart.png',
-                    index: 0,
+                    image: CounterImages.heart,
+                    start: true,
                     target: 'lifepoints',
                   ),
                   CounterMini(
-                    frontImage: "assets/img/poison.png",
-                    index: 1,
+                    image: CounterImages.poison,
                     target: 'poison',
                   ),
-                  CounterMini(
-                    frontImage: 'assets/img/shield.png',
-                    backImage: 'assets/img/shield-full.png',
-                    frontColor: Colors.blueGrey,
-                    backColor: Colors.blueAccent,
-                    index: 2,
-                    target: 'commander_damage',
-                  ),
-                  CounterMini(
-                    frontImage: 'assets/img/shield.png',
-                    backImage: 'assets/img/shield-full.png',
-                    frontColor: Colors.blueGrey,
-                    backColor: Colors.blueAccent,
-                    index: 3,
-                    target: 'lifepoints',
-                  ),
-                  CounterMini(
-                    frontImage: 'assets/img/shield.png',
-                    backImage: 'assets/img/shield-full.png',
-                    frontColor: Colors.blueGrey,
-                    backColor: Colors.blueAccent,
-                    index: 4,
-                    target: 'poison',
-                  ),
+                  ...getCommanders()
                 ],
               ),
             )
           ]),
     );
   }
-
-
 }
 
 class PlayerCounters extends StatefulWidget {

@@ -1,58 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mtgcounters/image_utility.dart';
 
 import 'inherited_player_state.dart';
 
 class CounterMini extends StatelessWidget {
-  final int index;
-  final String frontImage;
-  final String backImage;
+  final bool start;
+  final CounterImages image;
   final Color frontColor;
   final Color backColor;
   final String target;
 
+
   const CounterMini({
     Key key,
-    this.frontImage = 'assets/img/heart.png',
-    this.backImage,
+    this.image = CounterImages.heart,
     this.frontColor = Colors.black,
-    this.backColor = Colors.white,
-    this.index,
+    this.backColor,
+    this.start = false,
     this.target
   }) : super(key: key);
-
-  Widget getImageWidget() {
-    if (backImage == null) {
-      return Image.asset(
-        frontImage,
-        color: frontColor,
-        fit: BoxFit.scaleDown,
-      );
-    } else {
-      return Stack(
-        children: <Widget>[
-          Image.asset(
-            backImage,
-            color: backColor,
-            fit: BoxFit.scaleDown,
-          ),
-          Image.asset(
-            frontImage,
-            color: frontColor,
-            fit: BoxFit.scaleDown,
-          ),
-        ],
-      );
-    }
-  }
 
   Border get border {
     return Border(
       bottom: BorderSide(width: 2, color: Colors.blueAccent),
-      left: BorderSide(width: index == 0 ? 2 : 0, color: Colors.blueAccent),
+      left: BorderSide(width: start ? 2 : 0, color: Colors.blueAccent),
       right: BorderSide(width: 2, color: Colors.blueAccent),
     );
+  }
+
+  Widget get imageWidget {
+    return ImageUtility.getImageWidgetFor(image: image, frontColor: frontColor, backColor: backColor);
   }
 
 
@@ -61,7 +40,10 @@ class CounterMini extends StatelessWidget {
     var state = InheritedPlayerState.of(context);
     return Expanded(
       child: GestureDetector(
-        onTap: () => state.data.setActive(this.target),
+        onTap: () {
+          state.data.setActive(this.target);
+          state.data.setActiveImage(image, frontColor, backColor);
+        },
         child: Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
           constraints: BoxConstraints.tightFor(width: 40, height: 40),
@@ -83,7 +65,7 @@ class CounterMini extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: getImageWidget(),
+                child: imageWidget,
               )
             ],
           ),
