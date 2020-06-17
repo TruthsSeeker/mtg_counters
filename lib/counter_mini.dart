@@ -24,9 +24,9 @@ class CounterMini extends StatelessWidget {
 
   Border get border {
     return Border(
-      bottom: BorderSide(width: 2, color: Colors.blueAccent),
-      left: BorderSide(width: start ? 2 : 0, color: Colors.blueAccent),
-      right: BorderSide(width: 2, color: Colors.blueAccent),
+      bottom: BorderSide(width: 2, color: Colors.transparent),
+      left: BorderSide(width: start ? 2 : 0, color: Colors.transparent),
+      right: BorderSide(width: 2, color: Colors.transparent),
     );
   }
 

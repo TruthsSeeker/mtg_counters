@@ -9,7 +9,6 @@ import 'main_display.dart';
 
 class PlayerCountersState extends State<PlayerCounters> {
   final String key = Uuid().v4();
-  final double scale;
   final Color color;
 
   String active;
@@ -27,7 +26,6 @@ class PlayerCountersState extends State<PlayerCounters> {
     Map<String, int> commanderDamage = const {'Alice': 0, 'Bob': 0, 'Charlie':0},
     this.color = Colors.red,
     this.active = 'lifepoints',
-    this.scale = 1,
     this.mainImage = CounterImages.heart,
     this.imageFront = Colors.black,
   }) {
@@ -84,7 +82,6 @@ class PlayerCountersState extends State<PlayerCounters> {
   }
 
   //TODO: add reset button
-  //TODO: Create counters depending on number of player
   Widget _buildCounters() {
     return InheritedPlayerState(
       data: this,
@@ -151,10 +148,9 @@ class PlayerCountersState extends State<PlayerCounters> {
 }
 
 class PlayerCounters extends StatefulWidget {
-  double scale;
 
-  PlayerCounters({this.scale = 1});
+  PlayerCounters();
 
   @override
-  State<StatefulWidget> createState() => PlayerCountersState(scale: this.scale);
+  State<StatefulWidget> createState() => PlayerCountersState();
 }
