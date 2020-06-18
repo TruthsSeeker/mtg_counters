@@ -5,19 +5,14 @@ import 'package:uuid/uuid.dart';
 var uuid = Uuid();
 
 class Player {
-  final String key = uuid.v4();
+  String key;
   int startingLife;
   Color color;
 
-  Player(this.color, {GameTypes type = GameTypes.normal}) {
-    switch (type) {
-      case GameTypes.normal:
-        this.startingLife = 20;
-        break;
-      case GameTypes.commander:
-        this.startingLife = 40;
-        break;
-    }
+  Player({
+      String key,
+      this.color,
+      this.startingLife}) {
+    this.key = key ?? uuid.v4();
   }
-
-}
+}=

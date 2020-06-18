@@ -30,7 +30,10 @@ class PlayerCountersState extends State<PlayerCounters> {
     this.mainImage = CounterImages.heart,
     this.imageFront = Colors.black,
   }) {
-    var commanderMap = Map<String, int>.fromIterable(commanders.map((commander) => {commander.key: 0}));
+    var commanderMap = commanders.map((commander) => {commander.key: 0}).reduce((v, e) {
+      v.addAll(e);
+      return v;
+    });
     this.props = {'lifepoints': lifepoints, 'poison':  poison, ...commanderMap};
 
   }
@@ -68,8 +71,6 @@ class PlayerCountersState extends State<PlayerCounters> {
   }
 
 
-  //TODO: Get commander colors
-  //Perhaps through player id?
   List<Widget> getCommanders() {
     List<Widget> list = [];
     commanders.forEach((value) {
@@ -83,7 +84,6 @@ class PlayerCountersState extends State<PlayerCounters> {
     return list;
   }
 
-  //TODO: add reset button
   Widget _buildCounters() {
     return InheritedPlayerState(
       data: this,
@@ -150,7 +150,14 @@ class PlayerCountersState extends State<PlayerCounters> {
 }
 
 class PlayerCounters extends StatefulWidget {
+  Player player;
+  List<Player> commanders = [];
+
+  PlayerCounters(
+      @required this.player,
+      this.commanders
+    );
 
   @override
-  State<StatefulWidget> createState() => PlayerCountersState();
+  State<StatefulWidget> createState() => PlayerCountersState(lifepoints: player.startingLife, color: player.color, commanders: commanders);
 }

@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/game_utility.dart';
 import 'package:mtgcounters/widgets/player_counters.dart';
 
+// TODO: Refactor PlayerCounterState to facilitate soft-resets (ie preserving some information re players eg color)
 class Game extends StatefulWidget {
   @override
   _GameState createState() => _GameState();
@@ -15,31 +17,33 @@ class _GameState extends State<Game> {
   Map<String, Player> players = {};
 
   _GameState({
-    this.playerCount,
-    this.gameType
+    this.playerCount = 2,
+    this.gameType = GameTypes.normal
   }) {
     this.initPlayers();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return _getColumn();
   }
 
   initPlayers() {
     for (int i = 0; i < playerCount; i++) {
-       var player = Player(defaultPlayerColors[i], type: gameType);
+       var player = Player(startingLife: gameType == GameTypes.normal ? 20 : 40, color: defaultPlayerColors[i % playerCount]);
        players[player.key] = player;
     }
   }
 
   List<Widget> _getPlayerCountersFor(Player player) {
+    List<Player> otherPlayers = Map<String, Player>.from(players).values.toList();
+    otherPlayers.remove(player);
     return <Widget>[
       Spacer(flex: 1,),
       Flexible(
         flex: 9,
         fit: FlexFit.tight,
-        child: PlayerCounters(),
+        child: PlayerCounters(player, otherPlayers),
       ),
       Spacer(flex: 1,)
     ];
@@ -88,13 +92,26 @@ class _GameState extends State<Game> {
                             _getRow(playerColumn),
                             Spacer(flex: 1,),
                           ])
-                          .expand((x) => x);
+                          .expand((x) => x).toList();
     return Column(
       children: <Widget>[
         Spacer(flex: 1,),
-        ...widgetList
+        ...widgetList,
+        GestureDetector(
+          child: Container(
+            color: Colors.black,
+          ),
+          onTap: restartGame,
+        )
       ],
     );
+  }
+
+  //TODO: Make that work
+  restartGame() {
+    setState(() {
+      players = Map<String, Player>.from(players);
+    });
   }
 
 
