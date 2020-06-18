@@ -24,6 +24,8 @@ class ImageUtility {
     return value;
   }
 
+
+  //TODO: factor out backColor
   static Widget getImageWidgetFor({CounterImages image, Color frontColor = Colors.blueGrey, Color backColor = Colors.blue} ) {
     if (image == CounterImages.commander) {
       List<String> images = ImageUtility.counterImage(image).split('|');

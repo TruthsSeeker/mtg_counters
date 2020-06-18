@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mtgcounters/image_utility.dart';
+import 'package:mtgcounters/utility/image_utility.dart';
 
 import 'inherited_player_state.dart';
 

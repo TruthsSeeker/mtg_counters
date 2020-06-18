@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mtgcounters/counter_button.dart';
-import 'package:mtgcounters/counter_mini.dart';
-import 'package:mtgcounters/image_utility.dart';
-import 'package:mtgcounters/inherited_player_state.dart';
+import 'package:mtgcounters/models/player.dart';
+import 'package:mtgcounters/widgets/counter_button.dart';
+import 'package:mtgcounters/widgets/counter_mini.dart';
+import 'package:mtgcounters/utility/image_utility.dart';
+import 'package:mtgcounters/widgets/inherited_player_state.dart';
 import 'package:uuid/uuid.dart';
 
 import 'main_display.dart';
@@ -15,7 +16,7 @@ class PlayerCountersState extends State<PlayerCounters> {
   CounterImages mainImage;
   Color imageFront;
   Color imageBack;
-  Map<String, int> _commanders = {};
+  List<Player> commanders = [];
   Map<String, int> props = {};
 
 
@@ -23,14 +24,15 @@ class PlayerCountersState extends State<PlayerCounters> {
     int lifepoints = 20,
     int poison = 0,
     int storm = 0,
-    Map<String, int> commanderDamage = const {'Alice': 0, 'Bob': 0, 'Charlie':0},
+    this.commanders,
     this.color = Colors.red,
     this.active = 'lifepoints',
     this.mainImage = CounterImages.heart,
     this.imageFront = Colors.black,
   }) {
-    this.props = {'lifepoints': lifepoints, 'poison':  poison, ...commanderDamage};
-    this._commanders = commanderDamage;
+    var commanderMap = Map<String, int>.fromIterable(commanders.map((commander) => {commander.key: 0}));
+    this.props = {'lifepoints': lifepoints, 'poison':  poison, ...commanderMap};
+
   }
 
   @override
@@ -70,12 +72,12 @@ class PlayerCountersState extends State<PlayerCounters> {
   //Perhaps through player id?
   List<Widget> getCommanders() {
     List<Widget> list = [];
-    _commanders.forEach((key, value) {
+    commanders.forEach((value) {
       list.add(CounterMini(
-        target: key,
+        target: value.key,
         image: CounterImages.commander,
         frontColor: Colors.black,
-        backColor: Colors.redAccent,
+        backColor: value.color,
       ));
     });
     return list;
@@ -148,8 +150,6 @@ class PlayerCountersState extends State<PlayerCounters> {
 }
 
 class PlayerCounters extends StatefulWidget {
-
-  PlayerCounters();
 
   @override
   State<StatefulWidget> createState() => PlayerCountersState();

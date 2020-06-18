@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mtgcounters/image_utility.dart';
+import 'package:mtgcounters/utility/image_utility.dart';
 
 class CounterImage extends StatelessWidget {
   final CounterImages image;

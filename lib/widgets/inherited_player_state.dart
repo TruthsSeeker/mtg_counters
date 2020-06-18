@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:mtgcounters/player_counters.dart';
+import 'package:mtgcounters/widgets/player_counters.dart';
 
 class InheritedPlayerState extends InheritedWidget {
   const InheritedPlayerState({

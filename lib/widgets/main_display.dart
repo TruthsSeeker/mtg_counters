@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:mtgcounters/image_utility.dart';
-import 'package:mtgcounters/inherited_player_state.dart';
+import 'package:mtgcounters/utility/image_utility.dart';
+import 'package:mtgcounters/widgets/inherited_player_state.dart';
 
 class MainDisplay extends StatelessWidget {
 
