@@ -3,13 +3,13 @@ import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/widgets/counter_button.dart';
 import 'package:mtgcounters/widgets/counter_mini.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
+import 'package:mtgcounters/widgets/inherited_game_state.dart';
 import 'package:mtgcounters/widgets/inherited_player_state.dart';
-import 'package:uuid/uuid.dart';
 
 import 'main_display.dart';
 
 class PlayerCountersState extends State<PlayerCounters> {
-  final String key = Uuid().v4();
+  final String key;
   final Color color;
 
   String active;
@@ -29,6 +29,7 @@ class PlayerCountersState extends State<PlayerCounters> {
     this.active = 'lifepoints',
     this.mainImage = CounterImages.heart,
     this.imageFront = Colors.black,
+    this.key = 'Bob'
   }) {
     var commanderMap = commanders.map((commander) => {commander.key: 0}).reduce((v, e) {
       v.addAll(e);
@@ -40,7 +41,7 @@ class PlayerCountersState extends State<PlayerCounters> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildCounters();
+    return _buildCounters(context);
   }
 
   void update(int value) {
@@ -84,7 +85,8 @@ class PlayerCountersState extends State<PlayerCounters> {
     return list;
   }
 
-  Widget _buildCounters() {
+  Widget _buildCounters(BuildContext context) {
+    InheritedGameState gameState = InheritedGameState.of(context);
     return InheritedPlayerState(
       data: this,
       child: Column(
@@ -154,10 +156,10 @@ class PlayerCounters extends StatefulWidget {
   List<Player> commanders = [];
 
   PlayerCounters(
-      @required this.player,
+      this.player,
       this.commanders
     );
 
   @override
-  State<StatefulWidget> createState() => PlayerCountersState(lifepoints: player.startingLife, color: player.color, commanders: commanders);
+  State<StatefulWidget> createState() => PlayerCountersState(lifepoints: player.startingLife, color: player.color, commanders: commanders, key: player.key);
 }

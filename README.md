@@ -1,4 +1,4 @@
-# mtgcounters
+# Mtg Counters
 
 MTG Life and other counters
 

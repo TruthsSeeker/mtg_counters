@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/game_utility.dart';
+import 'package:mtgcounters/widgets/inherited_game_state.dart';
 import 'package:mtgcounters/widgets/player_counters.dart';
 
 // TODO: Refactor PlayerCounterState to facilitate soft-resets (ie preserving some information re players eg color)
@@ -15,6 +16,7 @@ class _GameState extends State<Game> {
 
   int playerCount;
   Map<String, Player> players = {};
+  Map<String, PlayerCountersState> playerStates = {};
 
   _GameState({
     this.playerCount = 2,
@@ -93,17 +95,21 @@ class _GameState extends State<Game> {
                             Spacer(flex: 1,),
                           ])
                           .expand((x) => x).toList();
-    return Column(
-      children: <Widget>[
-        Spacer(flex: 1,),
-        ...widgetList,
-        GestureDetector(
-          child: Container(
-            color: Colors.black,
-          ),
-          onTap: restartGame,
-        )
-      ],
+    return InheritedGameState(
+      playerStates: playerStates,
+      stateChanged: setPlayerState,
+      child: Column(
+        children: <Widget>[
+          Spacer(flex: 1,),
+          ...widgetList,
+          GestureDetector(
+            child: Container(
+              color: Colors.black,
+            ),
+            onTap: restartGame,
+          )
+        ],
+      ),
     );
   }
 
@@ -111,6 +117,12 @@ class _GameState extends State<Game> {
   restartGame() {
     setState(() {
       players = Map<String, Player>.from(players);
+    });
+  }
+
+  setPlayerState(PlayerCountersState state) {
+    setState(() {
+      this.playerStates[state.key] = state;
     });
   }
 

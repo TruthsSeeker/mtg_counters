@@ -5,14 +5,14 @@ import 'package:uuid/uuid.dart';
 var uuid = Uuid();
 
 class Player {
+  final int startingLife;
   String key;
-  int startingLife;
   Color color;
 
   Player({
       String key,
       this.color,
-      this.startingLife}) {
+      this.startingLife,}) {
     this.key = key ?? uuid.v4();
   }
-}=
+}
