@@ -23,9 +23,8 @@ class CounterButton extends StatelessWidget {
           image: AssetImage(this.image),
         )),
         onTap: () {
-          state.data.update(this.value);
+          state.updateValue(this.value);
         },
-
       ),
     );
   }

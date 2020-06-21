@@ -25,20 +25,19 @@ class ImageUtility {
   }
 
 
-  //TODO: factor out backColor
-  static Widget getImageWidgetFor({CounterImages image, Color frontColor = Colors.blueGrey, Color backColor = Colors.blue} ) {
+  static Widget getImageWidgetFor({CounterImages image, Color color = Colors.blueGrey} ) {
     if (image == CounterImages.commander) {
       List<String> images = ImageUtility.counterImage(image).split('|');
       return Stack(
         children: <Widget>[
           Image.asset(
             images[0],
-            color: backColor,
+            color: color,
             fit: BoxFit.scaleDown,
           ),
           Image.asset(
             images[1],
-            color: frontColor,
+            color: Colors.black87,
             fit: BoxFit.scaleDown,
           ),
         ],
@@ -46,7 +45,7 @@ class ImageUtility {
     } else {
       return Image.asset(
         ImageUtility.counterImage(image),
-        color: frontColor,
+        color: color,
         fit: BoxFit.scaleDown,
       );
     }

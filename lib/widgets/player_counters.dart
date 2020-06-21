@@ -10,32 +10,29 @@ import 'main_display.dart';
 
 class PlayerCountersState extends State<PlayerCounters> {
   final String key;
-  final Color color;
 
+  Player player;
   String active;
   CounterImages mainImage;
-  Color imageFront;
-  Color imageBack;
+  Color imageColor;
   List<Player> commanders = [];
-  Map<String, int> props = {};
+  ValueChanged<Player> updatePlayer;
 
 
   PlayerCountersState({
-    int lifepoints = 20,
-    int poison = 0,
-    int storm = 0,
+    this.player,
     this.commanders,
-    this.color = Colors.red,
+    this.updatePlayer,
     this.active = 'lifepoints',
     this.mainImage = CounterImages.heart,
-    this.imageFront = Colors.black,
+    this.imageColor = Colors.black,
     this.key = 'Bob'
   }) {
     var commanderMap = commanders.map((commander) => {commander.key: 0}).reduce((v, e) {
       v.addAll(e);
       return v;
     });
-    this.props = {'lifepoints': lifepoints, 'poison':  poison, ...commanderMap};
+    this.player.props.addAll(commanderMap);
 
   }
 
@@ -46,7 +43,8 @@ class PlayerCountersState extends State<PlayerCounters> {
 
   void update(int value) {
     setState(() {
-      props[active] += value;
+      player.props[active] += value;
+      updatePlayer(player);
     });
   }
 
@@ -56,21 +54,17 @@ class PlayerCountersState extends State<PlayerCounters> {
     });
   }
 
-  void setActiveImage(CounterImages image, Color frontColor, Color backColor) {
+  void setActiveImage(CounterImages image) {
     setState(() {
       mainImage = image;
-      imageFront = frontColor;
-      imageBack = backColor;
     });
   }
 
-
-  void setCommanders(Map<String, int> data) {
+  void setColor(Color color) {
     setState(() {
-      data.forEach((key, value) => props[key] = value);
+      imageColor = color;
     });
   }
-
 
   List<Widget> getCommanders() {
     List<Widget> list = [];
@@ -78,8 +72,7 @@ class PlayerCountersState extends State<PlayerCounters> {
       list.add(CounterMini(
         target: value.key,
         image: CounterImages.commander,
-        frontColor: Colors.black,
-        backColor: value.color,
+        frontColor: value.color,
       ));
     });
     return list;
@@ -88,7 +81,12 @@ class PlayerCountersState extends State<PlayerCounters> {
   Widget _buildCounters(BuildContext context) {
     InheritedGameState gameState = InheritedGameState.of(context);
     return InheritedPlayerState(
-      data: this,
+      player: player,
+      target: active,
+      updateValue: update,
+      updateTarget: setActive,
+      updateColor: setColor,
+      updateImage: setActiveImage,
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -113,8 +111,7 @@ class PlayerCountersState extends State<PlayerCounters> {
                     flex: 14,
                       child: MainDisplay(
                         image: mainImage,
-                        front: imageFront,
-                        back: imageBack,
+                        color: imageColor,
                       )
                   ),
                   Expanded(
@@ -154,12 +151,14 @@ class PlayerCountersState extends State<PlayerCounters> {
 class PlayerCounters extends StatefulWidget {
   Player player;
   List<Player> commanders = [];
+  ValueChanged<Player> updatePlayer;
 
   PlayerCounters(
       this.player,
-      this.commanders
+      this.commanders,
+      this.updatePlayer
     );
 
   @override
-  State<StatefulWidget> createState() => PlayerCountersState(lifepoints: player.startingLife, color: player.color, commanders: commanders, key: player.key);
+  State<StatefulWidget> createState() => PlayerCountersState(player: player, commanders: commanders, key: player.key, updatePlayer: updatePlayer);
 }

@@ -9,7 +9,6 @@ class CounterMini extends StatelessWidget {
   final bool start;
   final CounterImages image;
   final Color frontColor;
-  final Color backColor;
   final String target;
 
 
@@ -17,7 +16,6 @@ class CounterMini extends StatelessWidget {
     Key key,
     this.image = CounterImages.heart,
     this.frontColor = Colors.black,
-    this.backColor,
     this.start = false,
     this.target
   }) : super(key: key);
@@ -31,7 +29,7 @@ class CounterMini extends StatelessWidget {
   }
 
   Widget get imageWidget {
-    return ImageUtility.getImageWidgetFor(image: image, frontColor: frontColor, backColor: backColor);
+    return ImageUtility.getImageWidgetFor(image: image, color: frontColor);
   }
 
 
@@ -41,8 +39,9 @@ class CounterMini extends StatelessWidget {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          state.data.setActive(this.target);
-          state.data.setActiveImage(image, frontColor, backColor);
+          state.updateTarget(target);
+          state.updateImage(image);
+          state.updateColor(frontColor);
         },
         child: Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
@@ -59,7 +58,7 @@ class CounterMini extends StatelessWidget {
                   fit: BoxFit.fitHeight,
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
-                    child: Text(state.data.props[target].toString()),
+                    child: Text(state.player.props[target].toString()),
                   ),
                 ),
               ),

@@ -5,14 +5,12 @@ import 'package:mtgcounters/widgets/inherited_player_state.dart';
 class MainDisplay extends StatelessWidget {
 
   final CounterImages image;
-  final Color front;
-  final Color back;
+  final Color color;
 
   const MainDisplay({
     Key key,
     this.image,
-    this.front,
-    this.back
+    this.color,
   }) : super(key: key);
 
 
@@ -30,14 +28,14 @@ class MainDisplay extends StatelessWidget {
               flex: 5,
               child: FittedBox(
                 fit: BoxFit.fitWidth,
-                child: Text(state.data.props[state.data.active].toString()),
+                child: Text(state.player.props[state.target].toString()),
               ),
             ),
 
             Expanded(
               flex: 1,
               child: Center(
-                  child: ImageUtility.getImageWidgetFor(image: image, frontColor: front, backColor: back)
+                  child: ImageUtility.getImageWidgetFor(image: image, color: color)
               ),
             )
           ],

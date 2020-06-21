@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/game_utility.dart';
 import 'package:mtgcounters/widgets/inherited_game_state.dart';
+import 'package:mtgcounters/widgets/player_counter_container.dart';
 import 'package:mtgcounters/widgets/player_counters.dart';
 
 // TODO: Refactor PlayerCounterState to facilitate soft-resets (ie preserving some information re players eg color)
@@ -16,10 +17,9 @@ class _GameState extends State<Game> {
 
   int playerCount;
   Map<String, Player> players = {};
-  Map<String, PlayerCountersState> playerStates = {};
 
   _GameState({
-    this.playerCount = 2,
+    this.playerCount = 4,
     this.gameType = GameTypes.normal
   }) {
     this.initPlayers();
@@ -27,7 +27,11 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
-    return _getColumn();
+    return InheritedGameState(
+        child: _getColumn(context),
+        playerStates: players,
+        playerChanged: update,
+    );
   }
 
   initPlayers() {
@@ -37,24 +41,9 @@ class _GameState extends State<Game> {
     }
   }
 
-  List<Widget> _getPlayerCountersFor(Player player) {
-    List<Player> otherPlayers = Map<String, Player>.from(players).values.toList();
-    otherPlayers.remove(player);
-    return <Widget>[
-      Spacer(flex: 1,),
-      Flexible(
-        flex: 9,
-        fit: FlexFit.tight,
-        child: PlayerCounters(player, otherPlayers),
-      ),
-      Spacer(flex: 1,)
-    ];
-  }
-
-  Widget _getRow(List<Player> players) {
+  Widget _getRow(BuildContext context, List<Player> players) {
     var playerWidgets = players
-                          .map((player) => _getPlayerCountersFor(player))
-                          .expand((x) => x);
+                          .map((player) => PlayerCounterContainer(player: player));
     return Flexible(
       flex: 4,
       child: Row(
@@ -87,44 +76,43 @@ class _GameState extends State<Game> {
     return [top, bottom];
   }
 
-  Widget _getColumn() {
+  Widget _getColumn(BuildContext context) {
     final splitList = _splitPlayers();
     final widgetList = splitList
                           .map((playerColumn) => [
-                            _getRow(playerColumn),
+                            _getRow(context, playerColumn),
                             Spacer(flex: 1,),
                           ])
                           .expand((x) => x).toList();
-    return InheritedGameState(
-      playerStates: playerStates,
-      stateChanged: setPlayerState,
-      child: Column(
+    return Column(
         children: <Widget>[
           Spacer(flex: 1,),
           ...widgetList,
           GestureDetector(
             child: Container(
               color: Colors.black,
+              width: 50,
+              height: 50,
             ),
             onTap: restartGame,
           )
         ],
-      ),
     );
   }
 
   //TODO: Make that work
   restartGame() {
     setState(() {
-      players = Map<String, Player>.from(players);
+      players.forEach((k, v) => v.reset());
     });
   }
 
-  setPlayerState(PlayerCountersState state) {
+  void update(Player player) {
     setState(() {
-      this.playerStates[state.key] = state;
+      players[player.key].color = player.color;
+      players[player.key].props.forEach((k, v) => {
+        players[player.key].props.update(k, (existingValue) => player.props[k], ifAbsent: () => player.props[k])
+      });
     });
   }
-
-
 }
