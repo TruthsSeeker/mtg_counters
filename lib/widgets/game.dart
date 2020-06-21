@@ -6,7 +6,6 @@ import 'package:mtgcounters/widgets/inherited_game_state.dart';
 import 'package:mtgcounters/widgets/player_counter_container.dart';
 import 'package:mtgcounters/widgets/player_counters.dart';
 
-// TODO: Refactor PlayerCounterState to facilitate soft-resets (ie preserving some information re players eg color)
 class Game extends StatefulWidget {
   @override
   _GameState createState() => _GameState();
@@ -100,7 +99,6 @@ class _GameState extends State<Game> {
     );
   }
 
-  //TODO: Make that work
   restartGame() {
     setState(() {
       players.forEach((k, v) => v.reset());

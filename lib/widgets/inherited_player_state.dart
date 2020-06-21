@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
 
-//todo: Refactor data to use Value Callback
 //todo: Refactor player state into game state
 class InheritedPlayerState extends InheritedWidget {
   const InheritedPlayerState({
