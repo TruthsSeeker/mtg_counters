@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/game_utility.dart';
 import 'package:mtgcounters/widgets/inherited_game_state.dart';
+import 'package:mtgcounters/widgets/menu_bar.dart';
 import 'package:mtgcounters/widgets/player_counter_container.dart';
 import 'package:mtgcounters/widgets/player_counters.dart';
 
@@ -88,11 +89,7 @@ class _GameState extends State<Game> {
           Spacer(flex: 1,),
           ...widgetList,
           GestureDetector(
-            child: Container(
-              color: Colors.black,
-              width: 50,
-              height: 50,
-            ),
+            child: MenuBar(),
             onTap: restartGame,
           )
         ],

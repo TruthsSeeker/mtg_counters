@@ -5,6 +5,7 @@ import 'package:mtgcounters/widgets/player_counters.dart';
 
 void main() => runApp(MyApp());
 
+//TODO: Remove device orientation as layout factor
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
