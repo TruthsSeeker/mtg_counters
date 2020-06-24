@@ -36,7 +36,8 @@ class CounterMini extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = InheritedPlayerState.of(context);
-    return Expanded(
+    return Flexible(
+      fit: FlexFit.loose,
       child: GestureDetector(
         onTap: () {
           state.updateTarget(target);
@@ -45,7 +46,7 @@ class CounterMini extends StatelessWidget {
         },
         child: Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-          constraints: BoxConstraints.tightFor(width: 40, height: 40),
+          constraints: BoxConstraints.tight(Size(60, 40)),
           decoration: BoxDecoration(
             border: border
           ),
@@ -54,11 +55,14 @@ class CounterMini extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 flex: 2,
-                child: FittedBox(
-                  fit: BoxFit.fitHeight,
+                child: Align(
+                  alignment: Alignment.center,
                   child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(state.player.props[target].toString()),
+                    fit: BoxFit.fitHeight,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(state.player.props[target].toString()),
+                    ),
                   ),
                 ),
               ),

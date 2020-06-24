@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/widgets/counter_button.dart';
@@ -28,11 +29,13 @@ class PlayerCountersState extends State<PlayerCounters> {
     this.imageColor = Colors.black,
     this.key = 'Bob'
   }) {
-    var commanderMap = commanders.map((commander) => {commander.key: 0}).reduce((v, e) {
-      v.addAll(e);
-      return v;
-    });
-    this.player.props.addAll(commanderMap);
+    if (commanders.isNotEmpty) {
+      var commanderMap = commanders.map((commander) => {commander.key: 0}).reduce((v, e) {
+        v.addAll(e);
+        return v;
+      });
+      this.player.props.addAll(commanderMap);
+    }
 
   }
 
@@ -79,7 +82,7 @@ class PlayerCountersState extends State<PlayerCounters> {
   }
 
   Widget _buildCounters(BuildContext context) {
-    InheritedGameState gameState = InheritedGameState.of(context);
+    //TODO: Integrate layout options
     return InheritedPlayerState(
       player: player,
       target: active,
@@ -129,6 +132,7 @@ class PlayerCountersState extends State<PlayerCounters> {
             Expanded(
               flex: 1,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   CounterMini(
                     image: CounterImages.heart,

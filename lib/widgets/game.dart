@@ -19,7 +19,7 @@ class _GameState extends State<Game> {
   Map<String, Player> players = {};
 
   _GameState({
-    this.playerCount = 4,
+    this.playerCount = 1,
     this.gameType = GameTypes.normal
   }) {
     this.initPlayers();
