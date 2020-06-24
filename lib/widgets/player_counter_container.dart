@@ -5,8 +5,9 @@ import 'package:mtgcounters/widgets/player_counters.dart';
 
 class PlayerCounterContainer extends StatelessWidget {
   Player player;
+  int quarterTurns;
 
-  PlayerCounterContainer({this.player});
+  PlayerCounterContainer({this.player, this.quarterTurns});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class PlayerCounterContainer extends StatelessWidget {
     return Flexible(
       flex: 1,
       child: RotatedBox(
-        quarterTurns: 1,
+        quarterTurns: quarterTurns,
         child: Row(
             children: <Widget>[
               Spacer(flex: 1,),
