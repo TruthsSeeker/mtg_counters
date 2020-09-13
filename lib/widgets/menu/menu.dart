@@ -10,7 +10,7 @@ class Menu extends StatelessWidget {
     PlayerCountMenuItem(),
     StartingLifeMenuItem(),
     //TODO
-    new Text('Player settings placeholder'),
+    // new Text('Player settings placeholder'),
   ];
   @override
   Widget build(BuildContext context) {

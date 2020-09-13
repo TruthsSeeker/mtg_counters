@@ -76,6 +76,7 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
 
     TextEditingController controller = TextEditingController();
     controller.text = gameState.startingLife.toString();
+    controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
