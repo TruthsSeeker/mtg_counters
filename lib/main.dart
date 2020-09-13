@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mtgcounters/widgets/game.dart';
-import 'package:mtgcounters/widgets/navigation_tab_bar.dart';
-import 'package:mtgcounters/widgets/main_page/player_counters.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
                 ..style = PaintingStyle.stroke
                 ..strokeWidth = 1
                 ..color = Colors.black),
-            display1: TextStyle(color: Colors.white)
+            headline4: TextStyle(color: Colors.white)
           ),
         ),
         home: Game()

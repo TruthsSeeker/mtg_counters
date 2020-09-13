@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class BorderedTextStack extends StatelessWidget {
-  String text;
+  final String text;
 
-  BorderedTextStack(this.text){}
+  BorderedTextStack(this.text);
 
   @override
   Widget build(BuildContext context) {

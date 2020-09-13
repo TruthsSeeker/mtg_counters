@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/game_utility.dart';
-import 'package:mtgcounters/widgets/main_page/game_layout.dart';
 import 'package:mtgcounters/widgets/inherited_game_state.dart';
 import 'package:mtgcounters/widgets/navigation_tab_bar.dart';
 
 class Game extends StatefulWidget {
-  int playerCount;
-  int startingLife;
+  final int playerCount;
+  final int startingLife;
 
   Game({
     this.playerCount = 2,

@@ -4,8 +4,8 @@ import 'package:mtgcounters/widgets/inherited_game_state.dart';
 import 'package:mtgcounters/widgets/main_page/player_counters.dart';
 
 class PlayerCounterContainer extends StatelessWidget {
-  Player player;
-  int quarterTurns;
+  final Player player;
+  final int quarterTurns;
 
   PlayerCounterContainer({this.player, this.quarterTurns});
 
