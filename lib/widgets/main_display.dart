@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
+import 'package:mtgcounters/widgets/bordered_text_stack.dart';
 import 'package:mtgcounters/widgets/inherited_player_state.dart';
 
 class MainDisplay extends StatelessWidget {
@@ -28,7 +29,7 @@ class MainDisplay extends StatelessWidget {
               flex: 5,
               child: FittedBox(
                 fit: BoxFit.fitWidth,
-                child: Text(state.player.props[state.target].toString()),
+                child: BorderedTextStack(state.player.props[state.target].toString()),
               ),
             ),
 

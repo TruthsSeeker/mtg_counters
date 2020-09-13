@@ -4,12 +4,19 @@ import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/game_utility.dart';
 import 'package:mtgcounters/widgets/game_layout.dart';
 import 'package:mtgcounters/widgets/inherited_game_state.dart';
-import 'package:mtgcounters/widgets/menu_bar.dart';
-import 'package:mtgcounters/widgets/player_counter_container.dart';
+import 'package:mtgcounters/widgets/navigation_tab_bar.dart';
 
 class Game extends StatefulWidget {
+  int playerCount;
+  GameTypes gameType;
+
+  Game({
+    this.playerCount = 2,
+    this.gameType = GameTypes.normal,
+  });
+
   @override
-  _GameState createState() => _GameState();
+  _GameState createState() => _GameState(playerCount: playerCount, gameType: gameType);
 }
 
 class _GameState extends State<Game> {
@@ -28,9 +35,10 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     return InheritedGameState(
-        child: GameLayout(),
-        playerStates: players,
-        playerChanged: update,
+          child: NavigationTabBar(),
+          playerStates: players,
+          playerChanged: update,
+          restart: restartGame,
     );
   }
 
