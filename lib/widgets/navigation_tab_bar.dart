@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/widgets/game.dart';
-import 'package:mtgcounters/widgets/game_layout.dart';
-import 'package:mtgcounters/widgets/menu.dart';
+import 'package:mtgcounters/widgets/main_page/game_layout.dart';
+import 'package:mtgcounters/widgets/menu/menu.dart';
 
 class _NavigationTabBarState extends State<NavigationTabBar> {
   int _currentIndex = 0;
@@ -40,8 +40,6 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
 
   void onTabTapped(int index) {
     setState(() {
-      print('tab tapped');
-      print(index);
       _currentIndex = index;
     });
   }

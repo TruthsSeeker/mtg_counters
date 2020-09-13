@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'inherited_player_state.dart';
+import '../inherited_player_state.dart';
 
 class CounterButton extends StatelessWidget {
   const CounterButton({

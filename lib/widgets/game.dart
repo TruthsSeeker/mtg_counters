@@ -2,32 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/game_utility.dart';
-import 'package:mtgcounters/widgets/game_layout.dart';
+import 'package:mtgcounters/widgets/main_page/game_layout.dart';
 import 'package:mtgcounters/widgets/inherited_game_state.dart';
 import 'package:mtgcounters/widgets/navigation_tab_bar.dart';
 
 class Game extends StatefulWidget {
   int playerCount;
-  GameTypes gameType;
+  int startingLife;
 
   Game({
     this.playerCount = 2,
-    this.gameType = GameTypes.normal,
+    this.startingLife = 20,
   });
 
   @override
-  _GameState createState() => _GameState(playerCount: playerCount, gameType: gameType);
+  _GameState createState() => _GameState(playerCount: playerCount, startingLife: startingLife);
 }
 
 class _GameState extends State<Game> {
-  final GameTypes gameType;
-
+  int startingLife;
   int playerCount;
   Map<String, Player> players = {};
 
   _GameState({
-    this.playerCount = 4,
-    this.gameType = GameTypes.normal
+    this.playerCount,
+    this.startingLife
   }) {
     this.initPlayers();
   }
@@ -37,14 +36,18 @@ class _GameState extends State<Game> {
     return InheritedGameState(
           child: NavigationTabBar(),
           playerStates: players,
+          startingLife: startingLife,
           playerChanged: update,
           restart: restartGame,
+          playerCountChanged: updatePlayerCount,
+          startingLifeChanged: setStartingLife,
     );
   }
 
   initPlayers() {
+    players = {};
     for (int i = 0; i < playerCount; i++) {
-      var player = Player(startingLife: gameType == GameTypes.normal ? 20 : 40, color: defaultPlayerColors[i % playerCount]);
+      var player = Player(startingLife: startingLife, color: defaultPlayerColors[i % playerCount]);
       players[player.key] = player;
     }
   }
@@ -61,6 +64,20 @@ class _GameState extends State<Game> {
       players[player.key].props.forEach((k, v) => {
         players[player.key].props.update(k, (existingValue) => player.props[k], ifAbsent: () => player.props[k])
       });
+    });
+  }
+
+  updatePlayerCount(int count) {
+    setState(() {
+      playerCount = count;
+      initPlayers();
+    });
+  }
+
+  setStartingLife(int startingLife) {
+    setState(() {
+      this.startingLife = startingLife;
+      initPlayers();
     });
   }
 }

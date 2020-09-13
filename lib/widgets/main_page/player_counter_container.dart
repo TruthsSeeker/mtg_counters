@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/widgets/inherited_game_state.dart';
-import 'package:mtgcounters/widgets/player_counters.dart';
+import 'package:mtgcounters/widgets/main_page/player_counters.dart';
 
 class PlayerCounterContainer extends StatelessWidget {
   Player player;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mtgcounters/widgets/game.dart';
 import 'package:mtgcounters/widgets/navigation_tab_bar.dart';
-import 'package:mtgcounters/widgets/player_counters.dart';
+import 'package:mtgcounters/widgets/main_page/player_counters.dart';
 
 void main() => runApp(MyApp());
 

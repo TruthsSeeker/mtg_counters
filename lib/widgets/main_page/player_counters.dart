@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mtgcounters/models/player.dart';
-import 'package:mtgcounters/widgets/counter_button.dart';
-import 'package:mtgcounters/widgets/counter_mini.dart';
+import 'package:mtgcounters/widgets/main_page/counter_button.dart';
+import 'package:mtgcounters/widgets/main_page/counter_mini.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
 import 'package:mtgcounters/widgets/inherited_game_state.dart';
 import 'package:mtgcounters/widgets/inherited_player_state.dart';
@@ -82,7 +82,6 @@ class PlayerCountersState extends State<PlayerCounters> {
   }
 
   Widget _buildCounters(BuildContext context) {
-    //TODO: Integrate layout options
     return InheritedPlayerState(
       player: player,
       target: active,

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
-import 'package:mtgcounters/widgets/bordered_text_stack.dart';
+import 'package:mtgcounters/widgets/main_page/bordered_text_stack.dart';
 import 'package:mtgcounters/widgets/inherited_player_state.dart';
 
 class MainDisplay extends StatelessWidget {
