@@ -8,7 +8,8 @@ class InheritedPlayerState extends InheritedWidget {
     Key key,
     @required this.player,
     @required this.target,
-    @required this.updateValue,
+    @required this.onTapDown,
+    @required this.onTapUp,
     @required this.updateTarget,
     @required this.updateColor,
     @required this.updateImage,
@@ -18,8 +19,8 @@ class InheritedPlayerState extends InheritedWidget {
 
   final Player player;
   final String target;
-
-  final ValueChanged<int> updateValue;
+  final ValueChanged<int> onTapDown;
+  final Function onTapUp;
   final ValueChanged<String> updateTarget;
   final ValueChanged<Color> updateColor;
   final ValueChanged<CounterImages> updateImage;
@@ -30,6 +31,9 @@ class InheritedPlayerState extends InheritedWidget {
 
   @override
   bool updateShouldNotify(InheritedPlayerState old) {
-    return this.player.props == old.player.props && updateValue == old.updateValue && target == old.target;
+    return this.player.props == old.player.props
+        && onTapDown == old.onTapDown
+        && onTapUp == old.onTapUp
+        && target == old.target;
   }
 }

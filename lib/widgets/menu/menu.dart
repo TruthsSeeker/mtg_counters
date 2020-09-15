@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mtgcounters/widgets/menu/player_color_selection_menu_item.dart';
 import 'package:mtgcounters/widgets/menu/player_count_menu_item.dart';
 import 'package:mtgcounters/widgets/menu/reset_game_menu_item.dart';
 import 'package:mtgcounters/widgets/menu/starting_life_menu_item.dart';
@@ -10,7 +11,8 @@ class Menu extends StatelessWidget {
     PlayerCountMenuItem(),
     StartingLifeMenuItem(),
     //TODO
-    // new Text('Player settings placeholder'),
+    PlayerColorSelectionMenuItem()
+
   ];
   @override
   Widget build(BuildContext context) {

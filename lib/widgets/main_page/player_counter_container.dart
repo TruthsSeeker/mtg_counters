@@ -16,18 +16,25 @@ class PlayerCounterContainer extends StatelessWidget {
     otherPlayers.remove(player);
     return Flexible(
       flex: 1,
-      child: RotatedBox(
-        quarterTurns: quarterTurns,
-        child: Row(
-            children: <Widget>[
-              Spacer(flex: 1,),
-              Flexible(
-                flex: 9,
-                fit: FlexFit.tight,
-                child: PlayerCounters(player, otherPlayers, state.playerChanged),
-              ),
-              Spacer(flex: 1,)
-            ]
+      child: Container(
+        color: player.color,
+        child: RotatedBox(
+          quarterTurns: quarterTurns,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Spacer(flex: 1,),
+                  Flexible(
+                    flex: 19,
+                    fit: FlexFit.tight,
+                    child: PlayerCounters(player, otherPlayers, state.playerChanged),
+                  ),
+                  Spacer(flex: 1,)
+                ]
+            ),
+          ),
         ),
       ),
     );

@@ -3,8 +3,9 @@ import 'package:flutter/widgets.dart';
 
 class BorderedTextStack extends StatelessWidget {
   final String text;
+  final double strokeWidth;
 
-  BorderedTextStack(this.text);
+  BorderedTextStack(this.text, [this.strokeWidth = 1.0]);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class BorderedTextStack extends StatelessWidget {
             text,
             style:  TextStyle(foreground: Paint()
               ..style = PaintingStyle.stroke
-              ..strokeWidth = 1
+              ..strokeWidth = strokeWidth
               ..color = Colors.black)),
         ),
         Center(

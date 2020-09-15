@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
-import 'package:mtgcounters/widgets/main_page/bordered_text_stack.dart';
 import 'package:mtgcounters/widgets/inherited_player_state.dart';
+import 'package:mtgcounters/widgets/main_page/bordered_text_stack.dart';
 
 class MainDisplay extends StatelessWidget {
 
@@ -20,7 +20,7 @@ class MainDisplay extends StatelessWidget {
     InheritedPlayerState state = InheritedPlayerState.of(context);
     return GestureDetector(
       child: Container(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 32),
 //        constraints: BoxConstraints.tightFor(width: 20, height: 160),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -28,15 +28,19 @@ class MainDisplay extends StatelessWidget {
             Expanded(
               flex: 5,
               child: FittedBox(
+                alignment: Alignment.bottomCenter,
                 fit: BoxFit.fitWidth,
-                child: BorderedTextStack(state.player.props[state.target].toString()),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(4,0,4,0),
+                  child: BorderedTextStack(state.player.props[state.target].toString()),
+                ),
               ),
             ),
 
             Expanded(
               flex: 1,
               child: Center(
-                  child: ImageUtility.getImageWidgetFor(image: image, color: color)
+                  child: ImageUtility.getImageWidgetFor(player: state.player, image: image, color: color)
               ),
             )
           ],

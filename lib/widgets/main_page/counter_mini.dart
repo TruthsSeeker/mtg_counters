@@ -3,7 +3,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
 
+import '../../utility/contrast_color.dart';
 import '../inherited_player_state.dart';
+
 
 class CounterMini extends StatelessWidget {
   final bool start;
@@ -28,11 +30,6 @@ class CounterMini extends StatelessWidget {
     );
   }
 
-  Widget get imageWidget {
-    return ImageUtility.getImageWidgetFor(image: image, color: frontColor);
-  }
-
-
   @override
   Widget build(BuildContext context) {
     var state = InheritedPlayerState.of(context);
@@ -45,31 +42,39 @@ class CounterMini extends StatelessWidget {
           state.updateColor(frontColor);
         },
         child: Container(
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-          constraints: BoxConstraints.tight(Size(60, 40)),
+          // padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+          constraints: BoxConstraints.tight(Size(60, 50)),
           decoration: BoxDecoration(
             border: border
           ),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                flex: 2,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: FittedBox(
-                    fit: BoxFit.fitHeight,
+                flex: 5,
+                child: ImageUtility.getImageWidgetFor(player: state.player, image: image, color: frontColor),
+              ),
+              Expanded(
+                flex: 6,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
                     child: FittedBox(
-                      fit: BoxFit.fitWidth,
-                      child: Text(state.player.props[target].toString()),
+                      fit: BoxFit.fitHeight,
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                          state.player.props[target].toString(),
+                          style: TextStyle(
+                            color: state.player.color.contrastingBWColor(),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: imageWidget,
-              )
             ],
           ),
         ),

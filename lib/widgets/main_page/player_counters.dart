@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mtgcounters/models/player.dart';
@@ -17,6 +19,8 @@ class PlayerCountersState extends State<PlayerCounters> {
   Color imageColor;
   List<Player> commanders = [];
   ValueChanged<Player> updatePlayer;
+  int _currentChange = 0;
+  Timer _timer;
 
 
   PlayerCountersState({
@@ -68,6 +72,34 @@ class PlayerCountersState extends State<PlayerCounters> {
     });
   }
 
+  touchStarted(int value) {
+    update(value);
+    Duration period = getTimerPeriod();
+    _timer = Timer.periodic(period, (timer) {
+      _currentChange += 1;
+      update(value);
+      if (getTimerPeriod().inMilliseconds != period.inMilliseconds) {
+        timer.cancel();
+        touchStarted(value);
+      }
+    });
+  }
+  
+  Duration getTimerPeriod() {
+    if (_currentChange < 5) {
+      return Duration(milliseconds: 400);
+    } else if (_currentChange < 15) {
+      return Duration(milliseconds: 250);
+    } else {
+      return Duration(milliseconds: 100);
+    }
+  }
+
+  endUpdate() {
+    _timer.cancel();
+    _currentChange = 0;
+  }
+
   List<Widget> getCommanders() {
     List<Widget> list = [];
     commanders.forEach((value) {
@@ -84,7 +116,8 @@ class PlayerCountersState extends State<PlayerCounters> {
     return InheritedPlayerState(
       player: player,
       target: active,
-      updateValue: update,
+      onTapDown: touchStarted,
+      onTapUp: endUpdate,
       updateTarget: setActive,
       updateColor: setColor,
       updateImage: setActiveImage,
@@ -103,7 +136,7 @@ class PlayerCountersState extends State<PlayerCounters> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        CounterButton(value: -5, image: 'assets/img/-5.png',),
+                        // CounterButton(value: -5, image: 'assets/img/-5.png',),
                         CounterButton(value: -1, image: 'assets/img/-.png',),
                       ],
                     ),
@@ -119,7 +152,7 @@ class PlayerCountersState extends State<PlayerCounters> {
                     flex: 6,
                     child: Column(
                       children: <Widget>[
-                        CounterButton(value: 5, image: 'assets/img/+5.png',),
+                        // CounterButton(value: 5, image: 'assets/img/+5.png',),
                         CounterButton(value: 1, image: 'assets/img/+.png',),
                       ],
                     ),
@@ -130,7 +163,7 @@ class PlayerCountersState extends State<PlayerCounters> {
             Expanded(
               flex: 1,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   CounterMini(
                     image: CounterImages.heart,
