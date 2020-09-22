@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mtgcounters/utility/app_scroll_behavior.dart';
 import 'package:mtgcounters/widgets/game.dart';
 
 void main() => runApp(MyApp());
@@ -16,14 +17,17 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Merriweather',
           textTheme: TextTheme(
-            overline: TextStyle(foreground: Paint()
+              overline: TextStyle(foreground: Paint()
                 ..style = PaintingStyle.stroke
                 ..strokeWidth = 1
                 ..color = Colors.black),
-            headline4: TextStyle(color: Colors.white)
+              headline4: TextStyle(color: Colors.white)
           ),
         ),
-        home: Game()
+        home: ScrollConfiguration(
+            behavior: AppScrollBehavior(),
+            child: Game()
+        )
     );
   }
 }

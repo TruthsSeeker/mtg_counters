@@ -2,13 +2,19 @@ import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/widgets/inherited_game_state.dart';
 import 'package:mtgcounters/widgets/main_page/player_counter_container.dart';
+import 'package:mtgcounters/widgets/menu/menu.dart';
 
 class GameLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: _getColumn(context),
+    return Stack(
+      children: [
+        Row(
+          children: _getColumn(context),
+        ),
+        Menu(),
+      ],
     );
   }
 
