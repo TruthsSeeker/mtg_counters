@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/game_utility.dart';
 import 'package:mtgcounters/widgets/inherited_game_state.dart';
-import 'package:mtgcounters/widgets/navigation_tab_bar.dart';
+import 'package:mtgcounters/widgets/main_page/game_layout.dart';
 
 class Game extends StatefulWidget {
   final int playerCount;
@@ -33,7 +33,7 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     return InheritedGameState(
-          child: NavigationTabBar(),
+          child: GameLayout(),
           playerStates: players,
           startingLife: startingLife,
           playerChanged: update,
@@ -53,7 +53,7 @@ class _GameState extends State<Game> {
 
   restartGame() {
     setState(() {
-      players.forEach((k, v) => v.reset());
+      players = players.map((String key, Player value) => MapEntry(key, Player.updating(value)));
     });
   }
 

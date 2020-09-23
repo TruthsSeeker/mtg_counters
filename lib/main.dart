@@ -24,9 +24,11 @@ class MyApp extends StatelessWidget {
               headline4: TextStyle(color: Colors.white)
           ),
         ),
-        home: ScrollConfiguration(
-            behavior: AppScrollBehavior(),
-            child: Game()
+        home: Scaffold(
+          body: ScrollConfiguration(
+              behavior: AppScrollBehavior(),
+              child: Game()
+          ),
         )
     );
   }
