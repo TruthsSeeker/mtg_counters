@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
+import 'package:provider/provider.dart';
 
 import '../../utility/contrast_color.dart';
-import '../inherited_player_state.dart';
 
 
 class CounterMini extends StatelessWidget {
@@ -32,50 +33,52 @@ class CounterMini extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = InheritedPlayerState.of(context);
-    return Flexible(
-      fit: FlexFit.loose,
-      child: GestureDetector(
-        onTap: () {
-          state.updateTarget(target);
-          state.updateImage(image);
-          state.updateColor(frontColor);
-        },
-        child: Container(
-          // padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-          constraints: BoxConstraints.tight(Size(60, 50)),
-          decoration: BoxDecoration(
-            border: border
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                flex: 5,
-                child: ImageUtility.getImageWidgetFor(player: state.player, image: image, color: frontColor),
-              ),
-              Expanded(
-                flex: 6,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: FittedBox(
-                      fit: BoxFit.fitHeight,
+
+    return Consumer<Player>(
+      builder: (context, player, _) => Flexible(
+        fit: FlexFit.loose,
+        child: GestureDetector(
+          onTap: () {
+            player.changeActive(target);
+            player.setActiveImage(image);
+            player.setColor(frontColor);
+          },
+          child: Container(
+            // padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+            constraints: BoxConstraints.tight(Size(60, 50)),
+            decoration: BoxDecoration(
+              border: border
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  flex: 5,
+                  child: ImageUtility.getImageWidgetFor(player: player, image: image, frontColor: frontColor),
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
                       child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Text(
-                          state.player.props[target].toString(),
-                          style: TextStyle(
-                            color: state.player.color.contrastingBWColor(),
+                        fit: BoxFit.fitHeight,
+                        child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            player.props[target].toString(),
+                            style: TextStyle(
+                              color: player.color.contrastingBWColor(),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

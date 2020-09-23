@@ -30,7 +30,7 @@ class ImageUtility {
   }
 
 
-  static Widget getImageWidgetFor({Player player, CounterImages image, Color color = Colors.blueGrey} ) {
+  static Widget getImageWidgetFor({Player player, CounterImages image, Color frontColor} ) {
     if (image == CounterImages.commander) {
       List<String> images = ImageUtility.counterImage(image).split('|');
       return Stack(
@@ -42,7 +42,7 @@ class ImageUtility {
           // ),
           Image.asset(
             images[1],
-            color: color,
+            color: frontColor,
             fit: BoxFit.scaleDown,
           ),
           Image.asset(

@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/widgets/main_page/bordered_text_stack.dart';
+import 'package:provider/provider.dart';
 
-import '../inherited_player_state.dart';
 
 class CounterButton extends StatelessWidget {
   const CounterButton({
@@ -15,23 +16,23 @@ class CounterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final InheritedPlayerState state = InheritedPlayerState.of(context);
-    return Expanded(
-      child: FittedBox(
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          // child: Center(
-          //     child: Image(
-          //       image: AssetImage(this.image),
-          //       color: state.player.color.contrastingBWColor(),
-          //     )),
-          child: BorderedTextStack(value >= 0 ? '+' : '-', 0.5),
-          onTapDown: (details) {
-            state.onTapDown(this.value);
-          },
-          onTapUp: (details) {
-            state.onTapUp();
-          },
+
+    return Consumer<Player>(
+      builder: (context, player, _) => Expanded(
+        child: FittedBox(
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            child: BorderedTextStack(value >= 0 ? '+' : '-', 0.5),
+            onTapDown: (details) {
+              player.touchStarted(this.value);
+            },
+            onTapUp: (details) {
+              player.endUpdate();
+            },
+            onTapCancel: () {
+              player.endUpdate();
+            },
+          ),
         ),
       ),
     );

@@ -1,49 +1,41 @@
 import 'package:flutter/widgets.dart';
+import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
-import 'package:mtgcounters/widgets/inherited_player_state.dart';
 import 'package:mtgcounters/widgets/main_page/bordered_text_stack.dart';
+import 'package:provider/provider.dart';
 
 class MainDisplay extends StatelessWidget {
-
-  final CounterImages image;
-  final Color color;
-
-  const MainDisplay({
-    Key key,
-    this.image,
-    this.color,
-  }) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
-    InheritedPlayerState state = InheritedPlayerState.of(context);
-    return GestureDetector(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 32),
-//        constraints: BoxConstraints.tightFor(width: 20, height: 160),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              flex: 5,
-              child: FittedBox(
-                alignment: Alignment.bottomCenter,
-                fit: BoxFit.fitWidth,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(4,0,4,0),
-                  child: BorderedTextStack(state.player.props[state.target].toString()),
+    return Consumer<Player>(
+      builder: (context, player, _) => GestureDetector(
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                flex: 5,
+                child: FittedBox(
+                  alignment: Alignment.bottomCenter,
+                  fit: BoxFit.fitWidth,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(4,0,4,0),
+                    child: BorderedTextStack(player.props[player.active].toString()),
+                  ),
                 ),
               ),
-            ),
 
-            Expanded(
-              flex: 1,
-              child: Center(
-                  child: ImageUtility.getImageWidgetFor(player: state.player, image: image, color: color)
-              ),
-            )
-          ],
+              Expanded(
+                flex: 1,
+                child: Center(
+                    child: ImageUtility.getImageWidgetFor(player: player, image: player.mainImage)
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

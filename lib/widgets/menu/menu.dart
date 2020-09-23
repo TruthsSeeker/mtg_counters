@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mtgcounters/utility/app_scroll_behavior.dart';
 import 'package:mtgcounters/widgets/menu/player_color_selection_menu_item.dart';
 import 'package:mtgcounters/widgets/menu/player_count_menu_item.dart';
 import 'package:mtgcounters/widgets/menu/reset_game_menu_item.dart';
@@ -45,12 +46,16 @@ class Menu extends StatelessWidget {
                       topRight: const  Radius.circular(16.0))
               ),
               child: ScrollConfiguration(
-                behavior: ScrollBehavior(),
-                child: ListView.separated(
-                  controller: scrollController,
-                  itemCount: elementList.length,
-                  itemBuilder: (BuildContext context, int index) => elementList[index],
-                  separatorBuilder: (BuildContext context, int index) => const Divider(),
+                behavior: AppScrollBehavior(),
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: ListView.separated(
+                    controller: scrollController,
+                    itemCount: elementList.length,
+                    itemBuilder: (BuildContext context, int index) => elementList[index],
+                    separatorBuilder: (BuildContext context, int index) => const Divider(),
+                  ),
                 ),
               )
           );

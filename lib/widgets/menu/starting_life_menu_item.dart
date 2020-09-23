@@ -4,8 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:mtgcounters/models/game.dart';
+import 'package:provider/provider.dart';
 
-import '../inherited_game_state.dart';
 import 'input_done_view.dart';
 
 class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
@@ -72,10 +73,9 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
 
   @override
   Widget build(BuildContext context) {
-    InheritedGameState gameState = InheritedGameState.of(context);
-
+    Game game = Provider.of<Game>(context);
     TextEditingController controller = TextEditingController();
-    controller.text = gameState.startingLife.toString();
+    controller.text = game.startingLife.toString();
     controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
 
     return Column(
@@ -93,8 +93,8 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
             selectedColor: Colors.black,
             borderColor: Colors.black,
             children: defaultStartingLife,
-            groupValue: defaultStartingLife[gameState.startingLife] == null ? null : gameState.startingLife,
-            onValueChanged: gameState.startingLifeChanged,
+            groupValue: defaultStartingLife[game.startingLife] == null ? null : game.startingLife,
+            onValueChanged: game.setStartingLife,
           ),
         ),
         Padding(
@@ -117,7 +117,7 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
             ),
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.done,
-            onChanged: getCustomStartingLifeCallback(gameState.startingLifeChanged),
+            onChanged: getCustomStartingLifeCallback(game.setStartingLife),
             cursorColor: Colors.black,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(),

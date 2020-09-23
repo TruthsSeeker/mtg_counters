@@ -1,126 +1,43 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
-import 'package:mtgcounters/widgets/inherited_player_state.dart';
 import 'package:mtgcounters/widgets/main_page/counter_button.dart';
 import 'package:mtgcounters/widgets/main_page/counter_mini.dart';
+import 'package:provider/provider.dart';
 
 import 'main_display.dart';
 
-class PlayerCountersState extends State<PlayerCounters> {
-  final String key;
+class PlayerCounters extends StatelessWidget {
+  final Player player;
+  final List<Player> commanders;
 
-  Player player;
-  String active;
-  CounterImages mainImage;
-  Color imageColor;
-  List<Player> commanders = [];
-  ValueChanged<Player> updatePlayer;
-  int _currentChange = 0;
-  Timer _timer;
-
-
-  PlayerCountersState({
+  PlayerCounters({
     this.player,
     this.commanders,
-    this.updatePlayer,
-    this.active = 'lifepoints',
-    this.mainImage = CounterImages.heart,
-    this.imageColor = Colors.black,
-    this.key = 'Bob'
-  }) {
-    if (commanders.isNotEmpty) {
-      var commanderMap = commanders.map((commander) => {commander.key: 0}).reduce((v, e) {
-        v.addAll(e);
-        return v;
-      });
-      this.player.props.addAll(commanderMap);
-    }
+  });
 
-  }
 
   @override
   Widget build(BuildContext context) {
     return _buildCounters(context);
   }
 
-  void update(int value) {
-    setState(() {
-      player.props[active] += value;
-      updatePlayer(player);
-    });
-  }
 
-  void setActive(String target) {
-    setState(() {
-      active = target;
-    });
-  }
 
-  void setActiveImage(CounterImages image) {
-    setState(() {
-      mainImage = image;
-    });
-  }
-
-  void setColor(Color color) {
-    setState(() {
-      imageColor = color;
-    });
-  }
-
-  touchStarted(int value) {
-    update(value);
-    Duration period = getTimerPeriod();
-    _timer = Timer.periodic(period, (timer) {
-      _currentChange += 1;
-      update(value);
-      if (getTimerPeriod().inMilliseconds != period.inMilliseconds) {
-        timer.cancel();
-        touchStarted(value);
-      }
-    });
-  }
-  
-  Duration getTimerPeriod() {
-    if (_currentChange < 5) {
-      return Duration(milliseconds: 400);
-    } else if (_currentChange < 15) {
-      return Duration(milliseconds: 250);
-    } else {
-      return Duration(milliseconds: 100);
-    }
-  }
-
-  endUpdate() {
-    _timer.cancel();
-    _currentChange = 0;
-  }
 
   List<Widget> getCommanders() {
-    List<Widget> list = [];
-    commanders.forEach((value) {
-      list.add(CounterMini(
-        target: value.key,
-        image: CounterImages.commander,
-        frontColor: value.color,
-      ));
-    });
+    List<Widget> list = commanders.map((e) => CounterMini(
+      target: e.index.toString(),
+      image: CounterImages.commander,
+      frontColor: e.color,
+    )).toList();
     return list;
   }
 
   Widget _buildCounters(BuildContext context) {
-    return InheritedPlayerState(
-      player: player,
-      target: active,
-      onTapDown: touchStarted,
-      onTapUp: endUpdate,
-      updateTarget: setActive,
-      updateColor: setColor,
-      updateImage: setActiveImage,
+    return ChangeNotifierProvider<Player>(
+      create: (_) => player,
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -143,10 +60,7 @@ class PlayerCountersState extends State<PlayerCounters> {
                   ),
                   Expanded(
                     flex: 14,
-                      child: MainDisplay(
-                        image: mainImage,
-                        color: imageColor,
-                      )
+                      child: MainDisplay()
                   ),
                   Expanded(
                     flex: 6,
@@ -181,19 +95,4 @@ class PlayerCountersState extends State<PlayerCounters> {
           ]),
     );
   }
-}
-
-class PlayerCounters extends StatefulWidget {
-  final Player player;
-  final List<Player> commanders;
-  final ValueChanged<Player> updatePlayer;
-
-  PlayerCounters(
-    this.player,
-    this.commanders,
-    this.updatePlayer
-  );
-
-  @override
-  State<StatefulWidget> createState() => PlayerCountersState(player: player, commanders: commanders, key: player.key, updatePlayer: updatePlayer);
 }

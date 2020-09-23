@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
+import 'package:mtgcounters/models/game.dart';
 import 'package:mtgcounters/models/player.dart';
-import 'package:mtgcounters/widgets/inherited_game_state.dart';
 import 'package:mtgcounters/widgets/main_page/player_counter_container.dart';
 import 'package:mtgcounters/widgets/menu/menu.dart';
+import 'package:provider/provider.dart';
 
 class GameLayout extends StatelessWidget {
 
@@ -18,19 +19,18 @@ class GameLayout extends StatelessWidget {
     );
   }
 
-  List<List<Player>> _splitPlayers(Map<String, Player> players) {
-    var playerList = players.values.toList();
+  List<List<Player>> _splitPlayers(List<Player> players) {
     var middle = players.length ~/ 2;
     var i = 0;
 
     if (players.length <= 2) {
-      return [playerList];
+      return [players];
     }
 
     List<Player> bottom = [];
     List<Player> top = [];
 
-    playerList.forEach((value) {
+    players.forEach((value) {
       if (i < middle) {
         bottom.add(value);
       } else {
@@ -70,19 +70,11 @@ class GameLayout extends StatelessWidget {
   }
 
   List<Widget> _getColumn(BuildContext context) {
-    var state = InheritedGameState.of(context);
-    final splitList = _splitPlayers(state.playerStates);
+    final playerList = Provider.of<Game>(context).players;
+    final splitList = _splitPlayers(playerList);
     final rotations = _getRotations(splitList);
     List<Widget> widgetList = [];
-//        .map((playerColumn) => Flexible(
-//          flex: 1,
-//          child: Column(
-//            children: <Widget>[
-//              _getRow(context, playerColumn),
-////              Spacer(flex: 1,),
-//            ],
-//          ),
-//        )).toList();
+
     for (int i=0; i<splitList.length; i++) {
       widgetList.add(Flexible(
         flex: 1,

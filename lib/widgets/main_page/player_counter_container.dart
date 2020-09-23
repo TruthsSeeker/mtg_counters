@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:mtgcounters/models/game.dart';
 import 'package:mtgcounters/models/player.dart';
-import 'package:mtgcounters/widgets/inherited_game_state.dart';
 import 'package:mtgcounters/widgets/main_page/player_counters.dart';
+import 'package:provider/provider.dart';
 
 class PlayerCounterContainer extends StatelessWidget {
   final Player player;
@@ -11,9 +12,8 @@ class PlayerCounterContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    InheritedGameState state = InheritedGameState.of(context);
-    List<Player> otherPlayers = state.playerStates.values.toList();
-    otherPlayers.remove(player);
+    final game = Provider.of<Game>(context);
+    List<Player> otherPlayers = game.players.where((element) => element.index != player.index).toList();
     return Flexible(
       flex: 1,
       child: Container(
@@ -29,7 +29,7 @@ class PlayerCounterContainer extends StatelessWidget {
                   Flexible(
                     flex: 19,
                     fit: FlexFit.tight,
-                    child: PlayerCounters(player, otherPlayers, state.playerChanged),
+                    child: PlayerCounters(player: player, commanders: otherPlayers),
                   ),
                   Spacer(flex: 1,)
                 ]

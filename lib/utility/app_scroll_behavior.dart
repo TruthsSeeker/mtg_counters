@@ -6,4 +6,10 @@ class AppScrollBehavior extends ScrollBehavior {
       BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    // TODO: implement getScrollPhysics
+    return ClampingScrollPhysics();
+  }
 }
