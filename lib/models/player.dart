@@ -76,11 +76,11 @@ class Player with ChangeNotifier{
 
   Duration getTimerPeriod() {
     if (_currentChange < 5) {
-      return Duration(milliseconds: 400);
-    } else if (_currentChange < 15) {
       return Duration(milliseconds: 250);
+    } else if (_currentChange < 15) {
+      return Duration(milliseconds: 150);
     } else {
-      return Duration(milliseconds: 100);
+      return Duration(milliseconds: 75);
     }
   }
 
