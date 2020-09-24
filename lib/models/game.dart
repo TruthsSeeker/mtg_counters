@@ -35,8 +35,7 @@ class Game with ChangeNotifier {
   }
 
   restartGame() {
-    players.forEach((player) => player.reset());
-    notifyListeners();
+    initPlayers();
   }
 
 

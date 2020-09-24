@@ -20,24 +20,8 @@ class PlayerCounters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildCounters(context);
-  }
-
-
-
-
-  List<Widget> getCommanders() {
-    List<Widget> list = commanders.map((e) => CounterMini(
-      target: e.index.toString(),
-      image: CounterImages.commander,
-      frontColor: e.color,
-    )).toList();
-    return list;
-  }
-
-  Widget _buildCounters(BuildContext context) {
-    return ChangeNotifierProvider<Player>(
-      create: (_) => player,
+    return ChangeNotifierProvider<Player>.value(
+      value:  player,
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +43,7 @@ class PlayerCounters extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 14,
+                      flex: 14,
                       child: MainDisplay()
                   ),
                   Expanded(
@@ -95,4 +79,17 @@ class PlayerCounters extends StatelessWidget {
           ]),
     );
   }
+
+
+
+
+  List<Widget> getCommanders() {
+    List<Widget> list = commanders.map((e) => CounterMini(
+      target: e.index.toString(),
+      image: CounterImages.commander,
+      frontColor: e.color,
+    )).toList();
+    return list;
+  }
+
 }

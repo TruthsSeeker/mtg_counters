@@ -16,12 +16,11 @@ class CounterMini extends StatelessWidget {
 
 
   const CounterMini({
-    Key key,
     this.image = CounterImages.heart,
     this.frontColor = Colors.black,
     this.start = false,
     this.target
-  }) : super(key: key);
+  });
 
   Border get border {
     return Border(
