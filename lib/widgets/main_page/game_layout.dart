@@ -11,8 +11,11 @@ class GameLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Row(
-          children: _getColumn(context),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 55),
+          child: Row(
+            children: _getColumn(context),
+          ),
         ),
         Menu(),
       ],

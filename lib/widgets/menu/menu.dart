@@ -37,6 +37,7 @@ class Menu extends StatelessWidget {
     return DraggableScrollableSheet(
         minChildSize: 0.1,
         maxChildSize: 0.75,
+        initialChildSize: 0.1,
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
               decoration: new BoxDecoration(
