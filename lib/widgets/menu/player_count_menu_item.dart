@@ -28,7 +28,7 @@ class PlayerCountMenuItem extends StatelessWidget {
                 selectedColor: Colors.black,
                 borderColor: Colors.black,
                 children: playerCounts,
-                onValueChanged: game.updatePlayerCount,
+                onValueChanged: game.mainDisplayMode == MainDisplayMode.game ? game.updatePlayerCount : (int) {},
                 groupValue: game.players.length,
 
               ),

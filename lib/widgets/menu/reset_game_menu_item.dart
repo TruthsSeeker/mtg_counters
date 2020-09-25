@@ -25,7 +25,7 @@ class ResetGameMenuItem extends StatelessWidget {
             )
           ],
         ),
-        onTap: game.throwDice,
+        onTap: game.mainDisplayMode == MainDisplayMode.game ? game.throwDice : null,
       ),
     );
   }

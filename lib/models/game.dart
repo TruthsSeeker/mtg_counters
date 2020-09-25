@@ -31,6 +31,7 @@ class Game with ChangeNotifier {
   }
 
   int diceThrowStep = 0;
+  int diceThrowWinner;
   Timer _timer;
 
   Game() {
@@ -82,7 +83,8 @@ class Game with ChangeNotifier {
   }
 
   throwDice() {
-    List<List<DiceImages>> list = new List<List<DiceImages>>.generate(playerCount, (_) => []);
+    diceThrowStep = 0;
+    List<List<DiceImages>> list = List<List<DiceImages>>.generate(playerCount, (_) => []);
     List<DiceImages> lastRolls = [];
     for (int i = 0; i < playerCount; i++) {
       for (int j = 0; j < _diceRolls; j++){
@@ -96,11 +98,18 @@ class Game with ChangeNotifier {
     });
     randomValues = list;
     mainDisplayMode = MainDisplayMode.random;
+    diceIsRolling();
   }
 
   diceIsRolling() {
-    if (diceThrowStep < randomValues.first.length) {
-
+    if (diceThrowStep < randomValues.first.length - 1) {
+        _timer = Timer(Duration(milliseconds: 100), () {
+          diceThrowStep++;
+          notifyListeners();
+          diceIsRolling();
+        });
+    } else {
+      _timer.cancel();
     }
   }
 
@@ -108,17 +117,20 @@ class Game with ChangeNotifier {
     int max = list.map((e) => e.numericalValue)
         .reduce((value, element) => value > element ? value : element);
 
-    List<int> tiesIndices = list
-        .where((element) => element.numericalValue == max)
-        .toList().asMap().keys.toList();
+    Map<int, DiceImages> listMapped = Map<int, DiceImages>.from(list.asMap());
+    listMapped.removeWhere((key, value) => value.numericalValue != max);
 
-    if (tiesIndices.length <= 1) {
+    List<int> tiesIndices = listMapped.keys.toList();
+    if (tiesIndices.length == 1) {
+      diceThrowWinner = tiesIndices.first;
+      notifyListeners();
       return list;
     }
 
     List<DiceImages> rerolledLastValues = list;
     for (int index in tiesIndices) {
-      rerolledLastValues[index] = DiceImages.values[_random.nextInt(DiceImages.values.length)];
+      rerolledLastValues[index] = DiceImages
+          .values[_random.nextInt(DiceImages.values.length)];
     }
 
     return breakTies(rerolledLastValues);

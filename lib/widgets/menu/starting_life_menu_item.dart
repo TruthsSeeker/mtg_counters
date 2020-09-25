@@ -110,6 +110,7 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
           height: 60,
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
           child: TextField(
+            enabled: game.mainDisplayMode == MainDisplayMode.game,
             controller: controller,
             textAlign: TextAlign.center,
             style: TextStyle(

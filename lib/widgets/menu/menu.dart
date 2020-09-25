@@ -27,20 +27,14 @@ class Menu extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    // return ListView.separated(
-    //   padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
-    //   itemCount: elementList.length,
-    // itemBuilder: (BuildContext context, int index) => elementList[index],
-    // separatorBuilder: (BuildContext context, int index) => const Divider(),
-    //
-    // );
+
     return DraggableScrollableSheet(
         minChildSize: 0.1,
         maxChildSize: 0.75,
         initialChildSize: 0.1,
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                   color: Color(0xfbf7f5ff),
                   borderRadius: new BorderRadius.only(
                       topLeft:  const  Radius.circular(16.0),
