@@ -19,10 +19,10 @@ class MainDisplay extends StatelessWidget {
               Expanded(
                 flex: 5,
                 child: FittedBox(
-                  alignment: Alignment.bottomCenter,
-                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.center,
+                  fit: BoxFit.fill,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(4,0,4,0),
+                    padding: const EdgeInsets.fromLTRB(4,8,4,0),
                     child: BorderedTextStack(player.props[player.active].toString()),
                   ),
                 ),
@@ -31,7 +31,7 @@ class MainDisplay extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Center(
-                    child: ImageUtility.getImageWidgetFor(player: player, image: player.mainImage)
+                    child: player.mainImage.getImageWidgetFor(player: player)
                 ),
               )
             ],

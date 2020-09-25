@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,12 +19,15 @@ class BorderedTextStack extends StatelessWidget {
             style:  TextStyle(foreground: Paint()
               ..style = PaintingStyle.stroke
               ..strokeWidth = strokeWidth
-              ..color = Colors.black)),
+              ..color = Colors.black,
+              fontFeatures: [FontFeature.tabularFigures()])
+              ),
         ),
         Center(
           child: Text(
             text,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white,
+              fontFeatures: [FontFeature.tabularFigures()]),
           ),
         )
       ],

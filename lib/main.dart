@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
-            fontFamily: 'Merriweather',
+            fontFamily: 'MerriweatherSans',
             textTheme: TextTheme(
                 overline: TextStyle(foreground: Paint()
                   ..style = PaintingStyle.stroke
@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
                   ..color = Colors.black),
                 headline4: TextStyle(color: Colors.white)
             ),
+
           ),
           home: Scaffold(
             body: ScrollConfiguration(

@@ -88,3 +88,10 @@ flutter:
           weight: 700
         - asset: assets/fonts/Merriweather-Italic.ttf
           style: italic
+    - family: MerriweatherSans
+      fonts:
+        - asset: assets/fonts/MerriweatherSans-Regular.ttf
+        - asset: assets/fonts/MerriweatherSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/MerriweatherSans-Italic.ttf
+          style: italic

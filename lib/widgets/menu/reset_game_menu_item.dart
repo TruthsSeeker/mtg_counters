@@ -25,7 +25,7 @@ class ResetGameMenuItem extends StatelessWidget {
             )
           ],
         ),
-        onTap: game.restartGame,
+        onTap: game.throwDice,
       ),
     );
   }

@@ -53,7 +53,7 @@ class CounterMini extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   flex: 5,
-                  child: ImageUtility.getImageWidgetFor(player: player, image: image, frontColor: frontColor),
+                  child: image.getImageWidgetFor(player: player, frontColor: frontColor),
                 ),
                 Expanded(
                   flex: 6,

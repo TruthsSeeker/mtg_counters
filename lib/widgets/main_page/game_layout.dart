@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/game.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/widgets/main_page/player_counter_container.dart';
+import 'package:mtgcounters/widgets/main_page/randomizer_container.dart';
 import 'package:mtgcounters/widgets/menu/menu.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ class GameLayout extends StatelessWidget {
             children: _getColumn(context),
           ),
         ),
+        _getColoredPadding(context),
         Menu(),
       ],
     );
@@ -30,19 +32,19 @@ class GameLayout extends StatelessWidget {
       return [players];
     }
 
-    List<Player> bottom = [];
-    List<Player> top = [];
+    List<Player> right = [];
+    List<Player> left = [];
 
     players.forEach((value) {
       if (i < middle) {
-        bottom.add(value);
+        left.add(value);
       } else {
-        top.add(value);
+        right.add(value);
       }
       i++;
     });
 
-    return [top, bottom];
+    return [left, right];
   }
 
   List<List<int>> _getRotations(List<List<Player>> splitPlayers) {
@@ -59,17 +61,29 @@ class GameLayout extends StatelessWidget {
     }
   }
 
-  Widget _getRow(BuildContext context, List<Player> players, List<int> rotations) {
-    List<PlayerCounterContainer> playerWidgets = [];
-    for (int i = 0; i<players.length; i++) {
-      playerWidgets.add(PlayerCounterContainer(player: players[i], quarterTurns: rotations[i],));
+  List<Widget> _getWidgets(BuildContext context, List<Player> players, List<int> rotations) {
+    final MainDisplayMode mode = Provider.of<Game>(context).mainDisplayMode;
+
+    if (mode == MainDisplayMode.game) {
+      List<Widget> playerWidgets = [];
+      for (int i = 0; i<players.length; i++) {
+        playerWidgets.add(ChangeNotifierProvider<Player>.value(
+            value: players[i],
+            child: PlayerCounterContainer(player: players[i], quarterTurns: rotations[i],)
+        ));
+      }
+      return playerWidgets;
+
+    } else {
+      List<Widget> randomWidgets = [];
+      for (int i = 0; i<players.length; i++) {
+        randomWidgets.add(ChangeNotifierProvider<Player>.value(
+            value: players[i],
+            child: RandomizerContainer(players[i], rotations[i])
+        ));
+      }
+      return randomWidgets;
     }
-    return Flexible(
-      flex: 4,
-      child: Column(
-        children: <Widget>[...playerWidgets],
-      ),
-    );
   }
 
   List<Widget> _getColumn(BuildContext context) {
@@ -83,12 +97,44 @@ class GameLayout extends StatelessWidget {
         flex: 1,
         child: Column(
           children: <Widget>[
-            _getRow(context, splitList[i], rotations[i]),
+            ..._getWidgets(context, splitList[i], rotations[i]),
 //              Spacer(flex: 1,),
           ],
         ),
       ));
     }
     return widgetList;
+  }
+
+  List<Color> _getBottomColors(BuildContext context) {
+    List<Player> players = Provider.of<Game>(context).players;
+    List<Color> colors = [];
+    List<List<Player>> splitList = _splitPlayers(players);
+    for (List<Player> list in splitList) {
+      colors.add(list.last.color);
+    }
+    return colors;
+  }
+
+  Widget _getColoredPadding(BuildContext context) {
+    List<Color> colors = _getBottomColors(context);
+    List<Widget> coloredContainers = colors.map((e) {
+      return Expanded(
+          child: Container(
+            color: e,
+          )
+      );
+    }).toList();
+
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      height: 55,
+      child: Row(
+
+        children: [...coloredContainers],
+      ),
+    );
   }
 }
