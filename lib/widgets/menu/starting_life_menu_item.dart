@@ -77,58 +77,59 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
     TextEditingController controller = TextEditingController();
     controller.text = game.startingLife.toString();
     controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Text(
-          'Set starting life',
-          style: TextStyle(
-              fontSize: 20
-          ),
-        ),
-        SizedBox(
-          height: 60,
-          child: CupertinoSegmentedControl(
-            selectedColor: Colors.black,
-            borderColor: Colors.black,
-            children: defaultStartingLife,
-            groupValue: defaultStartingLife[game.startingLife] == null ? null : game.startingLife,
-            onValueChanged: game.setStartingLife,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-          child: Text(
-              'Custom starting life',
-              style: TextStyle(
-                  fontSize: 16
-              )
-          ),
-        ),
-        Container(
-          height: 60,
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-          child: TextField(
-            enabled: game.mainDisplayMode == MainDisplayMode.game,
-            controller: controller,
-            textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8,0,8,0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Text(
+            'Set starting life',
             style: TextStyle(
-              fontSize: 24
+                fontSize: 20
             ),
-            keyboardType: TextInputType.number,
-            textInputAction: TextInputAction.done,
-            onChanged: getCustomStartingLifeCallback(game.setStartingLife),
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(),
-              focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-              focusColor: Colors.black,
-            ),
-
           ),
-        )
-      ],
+          SizedBox(
+            height: 60,
+            child: CupertinoSegmentedControl(
+              selectedColor: Colors.black,
+              borderColor: Colors.black,
+              children: defaultStartingLife,
+              groupValue: game.startingLife,
+              onValueChanged: game.setStartingLife,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+            child: Text(
+                'Custom starting life',
+                style: TextStyle(
+                    fontSize: 16
+                )
+            ),
+          ),
+          Container(
+            height: 60,
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: TextField(
+              controller: controller,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24
+              ),
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
+              onChanged: getCustomStartingLifeCallback(game.setStartingLife),
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                focusColor: Colors.black,
+              ),
+
+            ),
+          )
+        ],
+      ),
     );
   }
 

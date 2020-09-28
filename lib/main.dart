@@ -4,6 +4,7 @@ import 'package:mtgcounters/models/game.dart';
 import 'package:mtgcounters/utility/app_scroll_behavior.dart';
 import 'package:mtgcounters/widgets/main_page/game_layout.dart';
 import 'package:provider/provider.dart';
+import 'package:wakelock/wakelock.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,6 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+
+    Wakelock.enable();
 
     return MultiProvider(
       providers: [
@@ -34,7 +37,13 @@ class MyApp extends StatelessWidget {
           home: Scaffold(
             body: ScrollConfiguration(
                 behavior: AppScrollBehavior(),
-                child: GameLayout()
+                child: Container(
+                  color: Color(0xfbf7f5ff),
+                  child: SafeArea(
+                    top: false,
+                    bottom: true,
+                      child: GameLayout()),
+                )
             ),
           )
       ),

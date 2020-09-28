@@ -14,26 +14,29 @@ class PlayerCountMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<Game>(
-      builder:(context, game, _) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            new Text(
-                "Number of players",
-              style: TextStyle(
-                  fontSize: 20
+      builder:(context, game, _) => Padding(
+        padding: const EdgeInsets.fromLTRB(8,0,8,0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Text(
+                  "Number of players",
+                style: TextStyle(
+                    fontSize: 20
+                ),
               ),
-            ),
-            Expanded(
-              child: CupertinoSegmentedControl<int>(
-                selectedColor: Colors.black,
-                borderColor: Colors.black,
-                children: playerCounts,
-                onValueChanged: game.mainDisplayMode == MainDisplayMode.game ? game.updatePlayerCount : (int) {},
-                groupValue: game.players.length,
+              Expanded(
+                child: CupertinoSegmentedControl<int>(
+                  selectedColor: game.mainDisplayMode == MainDisplayMode.game ? Colors.black : Colors.grey,
+                  borderColor: game.mainDisplayMode == MainDisplayMode.game ? Colors.black : Colors.grey,
+                  children: playerCounts,
+                  onValueChanged: game.mainDisplayMode == MainDisplayMode.game ? game.updatePlayerCount : (int) {},
+                  groupValue: game.players.length,
 
-              ),
-            )
-          ],
+                ),
+              )
+            ],
+        ),
       ),
     );
   }
