@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../reset_game_menu_item.dart';
-
 class SheetPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   SheetPersistentHeaderDelegate({
     @required this.minHeight,
@@ -31,24 +29,6 @@ class SheetPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-      return Row(
-        children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(0, 6, 0, 0),
-            constraints: BoxConstraints(
-              maxHeight: 10,
-              maxWidth: 20,
-            ),
-            child: Image.asset('assets/img/rounded-line.png'),
-          ),
-          Expanded(
-            child: Container(
-              height: 1,
-              color: Colors.grey,
-            ),
-          ),
-          ResetGameMenuItem()
-        ],
-      );
+      return child;
   }
 }

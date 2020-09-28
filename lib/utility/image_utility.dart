@@ -81,7 +81,7 @@ extension DiceImagesExtension on DiceImages {
     }
   }
 
-  int get numericalValue {
+  int get intValue {
     switch (this) {
       case DiceImages.one:
         return 1;
@@ -95,6 +95,25 @@ extension DiceImagesExtension on DiceImages {
         return 5;
       case DiceImages.six:
         return 6;
+    }
+
+    DiceImages from(int int){
+      switch(int) {
+        case 1:
+          return DiceImages.one;
+        case 2:
+          return DiceImages.two;
+        case 3:
+          return DiceImages.three;
+        case 4:
+          return DiceImages.four;
+        case 5:
+          return DiceImages.five;
+        case 6:
+          return DiceImages.six;
+        default:
+          return DiceImages.one;
+      }
     }
   }
 

@@ -3,29 +3,29 @@ import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/game.dart';
 import 'package:provider/provider.dart';
 
-class ResetGameMenuItem extends StatelessWidget {
+class HeaderGameMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<Game>(
-      builder: (context, game, _) => GestureDetector(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(
-                child: Text(
-                  'Reset game',
-                  style: TextStyle(
-                    fontSize: 20
-                  ),
-                )
+      builder: (context, game, _) => Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          GestureDetector(
+            onTap: game.throwDice,
+            child: Container(
+              child: Icon(Icons.casino, size: 40,),
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
             ),
-            Container(
+          ),
+          GestureDetector(
+            onTap: game.restartGame,
+            child: Container(
                 child: Icon(Icons.refresh, size: 40,),
-                padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-            )
-          ],
-        ),
-        onTap: game.mainDisplayMode == MainDisplayMode.game ? game.throwDice : null,
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+            ),
+          )
+        ],
       ),
     );
   }

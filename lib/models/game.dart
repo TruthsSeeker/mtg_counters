@@ -85,17 +85,20 @@ class Game with ChangeNotifier {
   throwDice() {
     diceThrowStep = 0;
     List<List<DiceImages>> list = List<List<DiceImages>>.generate(playerCount, (_) => []);
-    List<DiceImages> lastRolls = [];
+    Map<int, DiceImages> lastRolls = {};
+
     for (int i = 0; i < playerCount; i++) {
       for (int j = 0; j < _diceRolls; j++){
         list[i].add(DiceImages.values[_random.nextInt(DiceImages.values.length)]);
       }
-      lastRolls.add(DiceImages.values[_random.nextInt(DiceImages.values.length)]);
+      lastRolls[i] = DiceImages.values[_random.nextInt(DiceImages.values.length)];
     }
     lastRolls = breakTies(lastRolls);
-    list.asMap().forEach((key, value) {
-      value.add(lastRolls[key]);
+
+    lastRolls.forEach((key, value) {
+      list[key].add(value);
     });
+
     randomValues = list;
     mainDisplayMode = MainDisplayMode.random;
     diceIsRolling();
@@ -113,22 +116,26 @@ class Game with ChangeNotifier {
     }
   }
 
-  List<DiceImages> breakTies(List<DiceImages> list) {
-    int max = list.map((e) => e.numericalValue)
-        .reduce((value, element) => value > element ? value : element);
+  Map<int, DiceImages> breakTies(Map<int, DiceImages> diceImages) {
+    Map<int, DiceImages> ties = Map<int, DiceImages>.from(diceImages);
+    int max = 0;
 
-    Map<int, DiceImages> listMapped = Map<int, DiceImages>.from(list.asMap());
-    listMapped.removeWhere((key, value) => value.numericalValue != max);
-
-    List<int> tiesIndices = listMapped.keys.toList();
-    if (tiesIndices.length == 1) {
-      diceThrowWinner = tiesIndices.first;
-      notifyListeners();
-      return list;
+    for (DiceImages image in diceImages.values) {
+      if (image.intValue > max) {
+        max = image.intValue;
+      }
     }
 
-    List<DiceImages> rerolledLastValues = list;
-    for (int index in tiesIndices) {
+    ties.removeWhere((key, value) => value.intValue < max);
+
+    if (ties.length == 1) {
+      diceThrowWinner = ties.keys.first;
+      notifyListeners();
+      return diceImages;
+    }
+
+    Map<int, DiceImages> rerolledLastValues = diceImages;
+    for (int index in ties.keys) {
       rerolledLastValues[index] = DiceImages
           .values[_random.nextInt(DiceImages.values.length)];
     }
