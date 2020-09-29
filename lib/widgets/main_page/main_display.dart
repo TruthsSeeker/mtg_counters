@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:mtgcounters/models/game.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
 import 'package:mtgcounters/widgets/main_page/bordered_text_stack.dart';
@@ -31,7 +32,7 @@ class MainDisplay extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Center(
-                    child: player.mainImage.getImageWidgetFor(player: player)
+                    child: _getIndicator(context)
                 ),
               )
             ],
@@ -39,5 +40,12 @@ class MainDisplay extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _getIndicator(BuildContext context) {
+    Player player = Provider.of<Player>(context);
+    Game game = Provider.of<Game>(context);
+    Color color = game.players[player.index].color;
+    return player.mainImage.getImageWidgetFor(player: player, frontColor: color);
   }
 }
