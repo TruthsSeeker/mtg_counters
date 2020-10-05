@@ -40,7 +40,6 @@ class CounterMini extends StatelessWidget {
           onTap: () {
             player.changeActive(target);
             player.setActiveImage(image);
-            player.setColor(frontColor);
           },
           child: Container(
             // padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),

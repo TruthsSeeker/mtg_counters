@@ -16,7 +16,7 @@ class Player with ChangeNotifier{
   get props {
     return _props;
   }
-  void set props(Map<String, int> props) {
+  set props(Map<String, int> props) {
     _props = props;
     notifyListeners();
   }

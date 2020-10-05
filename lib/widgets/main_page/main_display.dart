@@ -45,7 +45,11 @@ class MainDisplay extends StatelessWidget {
   Widget _getIndicator(BuildContext context) {
     Player player = Provider.of<Player>(context);
     Game game = Provider.of<Game>(context);
-    Color color = game.players[player.index].color;
+    Color color = player.color;
+    int playerTarget = int.tryParse(player.active);
+    if (playerTarget != null) {
+      color = game.players[playerTarget].color;
+    }
     return player.mainImage.getImageWidgetFor(player: player, frontColor: color);
   }
 }
