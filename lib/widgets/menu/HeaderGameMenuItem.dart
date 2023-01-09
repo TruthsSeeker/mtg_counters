@@ -20,9 +20,18 @@ class HeaderGameMenuItem extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => showDialog(context: context, builder: (BuildContext context) {
-              return ConfirmReset();
-            }),
+            onTap: () =>
+            {
+              if (game.confirmReset) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmReset();
+                  })
+              } else {
+                game.restartGame()
+              }
+            },
             child: Container(
                 child: Icon(Icons.refresh, size: 40,),
                 padding: EdgeInsets.fromLTRB(16, 0, 16, 0),

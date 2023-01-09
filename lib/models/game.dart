@@ -18,6 +18,7 @@ class Game with ChangeNotifier {
 
   bool showAlert = false;
   bool _shouldDisplayResetConfirm = true;
+  bool get confirmReset => _shouldDisplayResetConfirm;
 
   MainDisplayMode _mainDisplayMode = MainDisplayMode.game;
   MainDisplayMode get mainDisplayMode { return _mainDisplayMode; }
@@ -71,6 +72,10 @@ class Game with ChangeNotifier {
 
   setResetConfirmDisplay(bool shouldDisplay) {
     _shouldDisplayResetConfirm = shouldDisplay;
+  }
+
+  shouldConfirmReset() {
+    return _shouldDisplayResetConfirm;
   }
 
   updatePlayerCount(int count) {
