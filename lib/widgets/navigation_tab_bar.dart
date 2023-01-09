@@ -22,13 +22,13 @@ class _NavigationTabBarState extends State<NavigationTabBar> {
                 icon: new ImageIcon(
                     AssetImage('assets/img/count.png')
                 ),
-                title: new Text('Counters')
+                label: 'Counters'
             ),
             BottomNavigationBarItem(
                 icon: new ImageIcon(
                     AssetImage('assets/img/menu.png')
                 ),
-                title: new Text("Menu")
+                label: "Menu"
             )
           ],
           onTap: onTabTapped,

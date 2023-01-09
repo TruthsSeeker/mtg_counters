@@ -6,6 +6,8 @@ import 'package:mtgcounters/widgets/main_page/randomizer_container.dart';
 import 'package:mtgcounters/widgets/menu/menu.dart';
 import 'package:provider/provider.dart';
 
+import '../menu/confirm_reset.dart';
+
 class GameLayout extends StatelessWidget {
 
   @override
@@ -20,6 +22,8 @@ class GameLayout extends StatelessWidget {
         ),
         _getColoredPadding(context),
         Menu(),
+        if (Provider.of<Game>(context).showAlert)
+          ConfirmReset()
       ],
     );
   }

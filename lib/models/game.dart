@@ -16,6 +16,9 @@ class Game with ChangeNotifier {
   List<Player> players;
   List<Color> defaultPlayerColors = [Colors.red, Colors.blue, Colors.green, Colors.purple];
 
+  bool showAlert = false;
+  bool _shouldDisplayResetConfirm = true;
+
   MainDisplayMode _mainDisplayMode = MainDisplayMode.game;
   MainDisplayMode get mainDisplayMode { return _mainDisplayMode; }
   set mainDisplayMode(MainDisplayMode mode) {
@@ -61,6 +64,14 @@ class Game with ChangeNotifier {
     initPlayers();
   }
 
+  displayAlert() {
+    showAlert = true;
+    print(showAlert);
+  }
+
+  setResetConfirmDisplay(bool shouldDisplay) {
+    _shouldDisplayResetConfirm = shouldDisplay;
+  }
 
   updatePlayerCount(int count) {
     playerCount = count;

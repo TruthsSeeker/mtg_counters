@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mtgcounters/models/game.dart';
+import 'package:mtgcounters/widgets/menu/confirm_reset.dart';
 import 'package:provider/provider.dart';
 
 class HeaderGameMenuItem extends StatelessWidget {
@@ -19,7 +20,9 @@ class HeaderGameMenuItem extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: game.restartGame,
+            onTap: () => showDialog(context: context, builder: (BuildContext context) {
+              return ConfirmReset();
+            }),
             child: Container(
                 child: Icon(Icons.refresh, size: 40,),
                 padding: EdgeInsets.fromLTRB(16, 0, 16, 0),

@@ -59,7 +59,8 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
 
     Future.delayed(Duration.zero, () {
       if (Platform.isIOS) {
-        KeyboardVisibility.onChange.listen((bool visible) {
+
+        KeyboardVisibilityController().onChange.listen((bool visible) {
           if (visible) {
             showOverlay(context);
           } else {
