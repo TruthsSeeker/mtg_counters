@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 
 class _RandomizerDisplayState extends State<RandomizerDisplay>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-  Game _game;
-  Player _player;
+  late AnimationController _animationController;
+  late Game _game;
+  late Player _player;
 
   @override
   void initState() {

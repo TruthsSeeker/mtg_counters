@@ -20,11 +20,11 @@ extension CounterImagesExtension on CounterImages {
       case CounterImages.commander:
         return 'assets/img/shield-full.png|assets/img/shield-fill.png|assets/img/shield.png';
       default:
-        return null;
+        return "";
     }
   }
 
-  Widget getImageWidgetFor({Player player, Color frontColor} ) {
+  Widget getImageWidgetFor({required Player player, required Color frontColor} ) {
     if (this == CounterImages.commander) {
       List<String> images = this.assetPaths.split('|');
       return Stack(
@@ -77,7 +77,7 @@ extension DiceImagesExtension on DiceImages {
       case DiceImages.six:
         return 'assets/img/inverted-dice-6.png';
       default:
-        return null;
+        return "";
     }
   }
 

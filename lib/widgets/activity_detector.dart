@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 
 class _ActivityDetectorState extends State<ActivityDetector> {
   Widget child;
-  Timer _timer;
+  Timer? _timer;
 
   _ActivityDetectorState(this.child);
 

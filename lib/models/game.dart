@@ -6,19 +6,25 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mtgcounters/models/player.dart';
 import 'package:mtgcounters/utility/image_utility.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Game with ChangeNotifier {
+  final _CONFIRM_RESET_KEY = "confirm_reset";
   final _random = new Random();
   final _diceRolls = 7;
+
   int playerCount = 2;
   int startingLife = 20;
-  List<Player> players;
+  List<Player> players = [];
   List<Color> defaultPlayerColors = [Colors.red, Colors.blue, Colors.green, Colors.purple];
 
   bool showAlert = false;
   bool _shouldDisplayResetConfirm = true;
   bool get confirmReset => _shouldDisplayResetConfirm;
+  set confirmReset(bool shouldConfirm) {
+    _shouldDisplayResetConfirm = shouldConfirm;
+  }
 
   MainDisplayMode _mainDisplayMode = MainDisplayMode.game;
   MainDisplayMode get mainDisplayMode { return _mainDisplayMode; }
@@ -27,7 +33,7 @@ class Game with ChangeNotifier {
     notifyListeners();
   }
 
-  List<List<DiceImages>> _randomValues;
+  List<List<DiceImages>> _randomValues = [];
   List<List<DiceImages>> get randomValues { return _randomValues; }
   set randomValues(List<List<DiceImages>> list) {
     _randomValues = list;
@@ -35,10 +41,16 @@ class Game with ChangeNotifier {
   }
 
   int diceThrowStep = 0;
-  int diceThrowWinner;
-  Timer _timer;
+  int diceThrowWinner = 0;
+  Timer? _timer;
 
   Game() {
+    bool? pref;
+    SharedPreferences.getInstance().then((instance) => {
+      if (instance.getBool(_CONFIRM_RESET_KEY) != null) {
+        confirmReset = instance.getBool(_CONFIRM_RESET_KEY)!
+      }
+    });
     initPlayers();
   }
 
@@ -72,6 +84,12 @@ class Game with ChangeNotifier {
 
   setResetConfirmDisplay(bool shouldDisplay) {
     _shouldDisplayResetConfirm = shouldDisplay;
+    saveResetConfirmSetting(shouldDisplay);
+  }
+
+  Future<void> saveResetConfirmSetting(bool shouldDisplay) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(_CONFIRM_RESET_KEY, shouldDisplay);
   }
 
   shouldConfirmReset() {
@@ -128,7 +146,7 @@ class Game with ChangeNotifier {
           diceIsRolling();
         });
     } else {
-      _timer.cancel();
+      _timer?.cancel();
     }
   }
 

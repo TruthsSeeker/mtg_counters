@@ -5,10 +5,10 @@ import 'package:mtgcounters/utility/image_utility.dart';
 import 'package:provider/provider.dart';
 
 class ScalableImage extends AnimatedWidget {
-  const ScalableImage({Key key, AnimationController controller})
+  const ScalableImage({Key? key, required AnimationController controller})
       : super(key: key, listenable: controller);
 
-  Animation<double> get _progress => listenable;
+  Animation<double> get _progress => listenable as Animation<double>;
 
   @override
   Widget build(BuildContext context) {

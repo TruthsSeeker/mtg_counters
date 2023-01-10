@@ -10,10 +10,10 @@ class Player with ChangeNotifier{
   Color color;
   String active;
   CounterImages mainImage = CounterImages.heart;
-  Timer _timer;
+  Timer? _timer;
   int _currentChange = 0;
   Map<String, int> _props = {};
-  get props {
+  Map<String, int> get props {
     return _props;
   }
   set props(Map<String, int> props) {
@@ -22,9 +22,9 @@ class Player with ChangeNotifier{
   }
 
   Player({
-      this.index,
-      this.color,
-      this.startingLife,
+      required this.index,
+      required this.color,
+      required this.startingLife,
       this.active = 'lifepoints'}) {
     this.props = {'lifepoints': startingLife, 'poison':  0, 'storm': 0};
   }
@@ -52,7 +52,9 @@ class Player with ChangeNotifier{
   }
 
   update(int value) {
-    this.props[active] += value;
+    int oldValue = this.props[active] ?? 0;
+    int newValue = value + oldValue;
+    this.props[active] = newValue;
     notifyListeners();
   }
 
@@ -85,7 +87,7 @@ class Player with ChangeNotifier{
   }
 
   endUpdate() {
-    _timer.cancel();
+    _timer?.cancel();
     _currentChange = 0;
   }
 }

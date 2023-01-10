@@ -46,7 +46,7 @@ class MainDisplay extends StatelessWidget {
     Player player = Provider.of<Player>(context);
     Game game = Provider.of<Game>(context);
     Color color = player.color;
-    int playerTarget = int.tryParse(player.active);
+    int? playerTarget = int.tryParse(player.active);
     if (playerTarget != null) {
       color = game.players[playerTarget].color;
     }

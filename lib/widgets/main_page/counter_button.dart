@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class CounterButton extends StatelessWidget {
   const CounterButton({
-    Key key,
+    Key? key,
     this.value = 1,
     this.image = 'assets/img/-5.png',
   }) : super(key: key);

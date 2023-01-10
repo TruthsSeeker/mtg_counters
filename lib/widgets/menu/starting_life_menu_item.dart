@@ -49,7 +49,7 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
     ),
   };
 
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
 
   _StartingLifeMenuItemState();
 
@@ -72,12 +72,22 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
 
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     Game game = Provider.of<Game>(context);
     TextEditingController controller = TextEditingController();
     controller.text = game.startingLife.toString();
     controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+    var filterStartingLife = () {
+       if (defaultStartingLife.keys.contains(game.startingLife)) {
+         return game.startingLife;
+       } else {
+         return null;
+       }
+    };
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(8,0,8,0),
       child: Column(
@@ -91,11 +101,11 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
           ),
           SizedBox(
             height: 60,
-            child: CupertinoSegmentedControl(
+            child: CupertinoSegmentedControl<int>(
               selectedColor: Colors.black,
               borderColor: Colors.black,
               children: defaultStartingLife,
-              groupValue: game.startingLife,
+              groupValue: filterStartingLife(),
               onValueChanged: game.setStartingLife,
             ),
           ),
@@ -134,9 +144,10 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
     );
   }
 
+
   showOverlay(BuildContext context) {
     if (overlayEntry != null) return;
-    OverlayState overlayState = Overlay.of(context);
+    OverlayState? overlayState = Overlay.of(context);
     overlayEntry = OverlayEntry(builder: (context) {
       return Positioned(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -146,12 +157,12 @@ class _StartingLifeMenuItemState extends State<StartingLifeMenuItem> {
       );
     });
 
-    overlayState.insert(overlayEntry);
+    overlayState?.insert(overlayEntry!);
   }
 
   removeOverlay(BuildContext context) {
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry!.remove();
       overlayEntry = null;
     }
   }

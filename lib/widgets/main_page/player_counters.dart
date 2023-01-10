@@ -12,8 +12,8 @@ class PlayerCounters extends StatelessWidget {
   final List<Player> commanders;
 
   PlayerCounters({
-    this.player,
-    this.commanders,
+    required this.player,
+    required this.commanders,
   });
 
 

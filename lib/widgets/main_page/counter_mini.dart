@@ -19,7 +19,7 @@ class CounterMini extends StatelessWidget {
     this.image = CounterImages.heart,
     this.frontColor = Colors.black,
     this.start = false,
-    this.target
+    required this.target
   });
 
   Border get border {

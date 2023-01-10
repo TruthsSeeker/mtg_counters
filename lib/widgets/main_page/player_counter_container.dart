@@ -8,7 +8,7 @@ class PlayerCounterContainer extends StatelessWidget {
   final Player player;
   final int quarterTurns;
 
-  PlayerCounterContainer({this.player, this.quarterTurns});
+  PlayerCounterContainer({required this.player, required this.quarterTurns});
 
   @override
   Widget build(BuildContext context) {

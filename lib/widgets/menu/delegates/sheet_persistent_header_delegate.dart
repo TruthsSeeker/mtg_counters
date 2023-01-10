@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 
 class SheetPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   SheetPersistentHeaderDelegate({
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.child,
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
   });
 
   final double minHeight;
